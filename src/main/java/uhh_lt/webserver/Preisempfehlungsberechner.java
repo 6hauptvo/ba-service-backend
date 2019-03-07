@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class GetRecommendedPrice {
+public class Preisempfehlungsberechner {
     static SolrClient client = new HttpSolrClient.Builder("http://ltdemos:8983/solr/fea-schema-less-2").build();
 
     public static void main(String[] args) {
@@ -30,9 +30,9 @@ public class GetRecommendedPrice {
         writer.write("/n");
         for (String id:ids) {
             String frage = connect.getFrage(id);
-            int wortAnzahl = GetComplexity.countWord(frage);
+            int wortAnzahl = Komplexitätsberechner.countWord(frage);
 
-            int nounCount = GetComplexity.complexNounCount(frage);
+            int nounCount = Komplexitätsberechner.complexNounCount(frage);
             String price = connect.getPreis(id);
 
 

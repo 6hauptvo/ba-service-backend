@@ -11,10 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import uhh_lt.classifier.MieterClassifier;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -81,7 +78,7 @@ public class ApplicationController  extends SpringBootServletInitializer {
     public void setMieter(@RequestParam(value = "id", defaultValue = "") String id,  HttpServletResponse httpResponse) {
         System.out.println(id);
         SolrConnect sc = new SolrConnect();
-        sc.MieterButtonsPushed(id, true);
+        sc.mieterButtonsPushed(id, true);
         try {
             httpResponse.sendRedirect("/");
         } catch (IOException e) {
@@ -93,7 +90,7 @@ public class ApplicationController  extends SpringBootServletInitializer {
     public void setVerMieter(@RequestParam(value = "id", defaultValue = "") String id,  HttpServletResponse httpResponse) {
         System.out.println(id);
         SolrConnect sc = new SolrConnect();
-        sc.MieterButtonsPushed(id, false);
+        sc.mieterButtonsPushed(id, false);
         try {
             httpResponse.sendRedirect("/");
         } catch (IOException e) {
@@ -105,7 +102,7 @@ public class ApplicationController  extends SpringBootServletInitializer {
     public void setProblemfall(@RequestParam(value = "id", defaultValue = "") String id,  HttpServletResponse httpResponse) {
         System.out.println(id);
         SolrConnect sc = new SolrConnect();
-        sc.MieterProblemfallButtonPushed(id);
+        sc.mieterProblemfallButtonPushed(id);
         try {
             httpResponse.sendRedirect("/");
         } catch (IOException e) {
@@ -117,7 +114,7 @@ public class ApplicationController  extends SpringBootServletInitializer {
     public void setGewerblich(@RequestParam(value = "id", defaultValue = "") String id,  HttpServletResponse httpResponse) {
         System.out.println(id);
         SolrConnect sc = new SolrConnect();
-        sc.GewerblichButtonsPushed(id, true);
+        sc.gewerblichButtonsPushed(id, true);
         try {
             httpResponse.sendRedirect("./gewerblich");
         } catch (IOException e) {
@@ -129,7 +126,7 @@ public class ApplicationController  extends SpringBootServletInitializer {
     public void setPrivat(@RequestParam(value = "id", defaultValue = "") String id,  HttpServletResponse httpResponse) {
         System.out.println(id);
         SolrConnect sc = new SolrConnect();
-        sc.GewerblichButtonsPushed(id, false);
+        sc.gewerblichButtonsPushed(id, false);
         try {
             httpResponse.sendRedirect("./gewerblich");
         } catch (IOException e) {
@@ -141,7 +138,7 @@ public class ApplicationController  extends SpringBootServletInitializer {
     public void setProblemfallGewerblich(@RequestParam(value = "id", defaultValue = "") String id,  HttpServletResponse httpResponse) {
         System.out.println(id);
         SolrConnect sc = new SolrConnect();
-        sc.GewerblichProblemfallButtonPushed(id);
+        sc.gewerblichProblemfallButtonPushed(id);
         try {
             httpResponse.sendRedirect("./gewerblich");
         } catch (IOException e) {
@@ -261,7 +258,7 @@ public class ApplicationController  extends SpringBootServletInitializer {
                 "      data.addColumn('number', 'price');\n" +
                 "\n" +
                 "      data.addRows([\n" +
-                sc.DauerPreisComparer() + "\n" +
+                sc.dauerPreisComparer() + "\n" +
                 "      ]);\n" +
                 "\n" +
                 "      var options = {\n" +
@@ -289,8 +286,8 @@ public class ApplicationController  extends SpringBootServletInitializer {
     public String staty(Model model)
     {
         SolrConnect sc = new SolrConnect();
-        model.addAttribute("message", sc.DauerPreisComparer());
-        model.addAttribute("message1", sc.FragelängePreisComparer());
+        model.addAttribute("message", sc.dauerPreisComparer());
+        model.addAttribute("message1", sc.fragelängePreisComparer());
         model.addAttribute("w11", sc.getWatson11());
         model.addAttribute("w12", sc.getWatson12());
         model.addAttribute("w21", sc.getWatson21());
@@ -319,7 +316,7 @@ public class ApplicationController  extends SpringBootServletInitializer {
     public String charty( Model model)
     {
         SolrConnect sc = new SolrConnect();
-        model.addAttribute("message", sc.DauerPreisComparer());
+        model.addAttribute("message", sc.dauerPreisComparer());
 
         return "charts"; //view
     }

@@ -43,12 +43,12 @@ public class SolrConnect
         inputDocument.addField("t_summary", object.get("T_Summary"));
         inputDocument.addField("a_date", object.get("R_posted"));
         inputDocument.addField("a_message", object.get("R_Message"));
-        inputDocument.addField("t_time", DatenDifferenz.Differenz((String)object.get("T_Date"),(String)object.get("R_posted")));
+        inputDocument.addField("t_time", Datendifferenzberechner.Differenz((String)object.get("T_Date"),(String)object.get("R_posted")));
         inputDocument.addField("Expertensystem_istmieter", mc.istHauptklasse((String)object.get("T_Message")));
         inputDocument.addField("Expertensystem_wert", mc.getMieterwahrscheinlichkeit());
         inputDocument.addField("Watson", wmc.classify((String)object.get("T_Message")));
         inputDocument.addField( "Watson istmieter", wmc.istHauptklasse());
-        inputDocument.addField("t_length", GetComplexity.countWord((String)object.get("T_Message")));
+        inputDocument.addField("t_length", Komplexitätsberechner.countWord((String)object.get("T_Message")));
 
         try {
             client.add(inputDocument);
@@ -1175,11 +1175,11 @@ public class SolrConnect
      */
     public String absendeButtonPushed(String text)
     {
-        GetRecommendedPrice getRecommendedPrice = new GetRecommendedPrice();
+        Preisempfehlungsberechner preisempfehlungsberechner = new Preisempfehlungsberechner();
         double param1 = 0.00;
         try
         {
-            param1 = getRecommendedPrice.getPrice(text);
+            param1 = preisempfehlungsberechner.getPrice(text);
         }
         catch (Exception e)
         {

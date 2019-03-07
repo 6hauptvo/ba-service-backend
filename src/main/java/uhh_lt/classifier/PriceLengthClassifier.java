@@ -1,4 +1,5 @@
-package uhh_lt.webserver;
+package uhh_lt.classifier;
+
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -6,12 +7,13 @@ import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
-
-//import org.json.*;
+import uhh_lt.webserver.SolrConnect;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+
+//import org.json.*;
 
 public class PriceLengthClassifier {
     static SolrClient client = new HttpSolrClient.Builder("http://ltdemos:8983/solr/fea-schema-less-2").build();
