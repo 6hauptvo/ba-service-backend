@@ -1,7 +1,7 @@
 package uhh_lt.webserver;
 
-public class GetRecommendedPriceTester {
-    static GetRecommendedPrice grc = new GetRecommendedPrice();
+public class PreisempfehlungsberechnerTest {
+    static Preisempfehlungsberechner grc = new Preisempfehlungsberechner();
 
                 public static void main (String[] args) throws Exception{
         try {

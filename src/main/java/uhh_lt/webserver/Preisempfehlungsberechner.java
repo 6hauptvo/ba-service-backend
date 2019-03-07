@@ -52,8 +52,8 @@ public class Preisempfehlungsberechner {
     public double getPrice(String frage) throws Exception {
 
         Classifier lrLoaded = (Classifier) weka.core.SerializationHelper.read(getClass().getClassLoader().getResourceAsStream("price.model"));
-        int wortAnzahl = GetComplexity.countWord(frage);
-        int nounCount = GetComplexity.complexNounCount(frage);
+        int wortAnzahl = Komplexitätsberechner.countWord(frage);
+        int nounCount = Komplexitätsberechner.complexNounCount(frage);
         double[] testCase = new double[]{wortAnzahl, nounCount};
 
         DenseInstance inst = new DenseInstance(1.0, testCase);
