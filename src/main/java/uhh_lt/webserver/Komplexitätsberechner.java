@@ -1,5 +1,7 @@
 package uhh_lt.webserver;
 
+import org.apache.commons.lang.StringUtils;
+
 public class Komplexitätsberechner {
     public static void main(String[] args) {
         System.out.println(countWord("Das hier ist ein Beispielsatz mit unterschiedlichen Wörtern, unter anderem lange Nomen wie zum Beispiel Ordnungswidrigkeit"));
@@ -29,5 +31,15 @@ public class Komplexitätsberechner {
         }
 
         return nounCount;
+    }
+
+    public static int complexSymbolCount(String message) {
+        int symbolCount;
+        symbolCount = StringUtils.countMatches(message, "§");
+        symbolCount += StringUtils.countMatches(message, "(");
+        symbolCount += StringUtils.countMatches(message, "€");
+        symbolCount += StringUtils.countMatches(message, "%");
+
+        return symbolCount;
     }
 }
