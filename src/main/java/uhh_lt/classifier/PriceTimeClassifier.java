@@ -7,7 +7,7 @@ import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
-import uhh_lt.webserver.SolrConnect;
+import uhh_lt.datenbank.SolrConnect;
 
 import java.io.FileWriter;
 import java.io.IOException;

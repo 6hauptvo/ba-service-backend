@@ -2,6 +2,7 @@ package uhh_lt.webserver;
 
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
+import uhh_lt.datenbank.SolrConnect;
 import weka.classifiers.Classifier;
 import weka.classifiers.functions.LinearRegression;
 import weka.core.DenseInstance;

@@ -12,7 +12,7 @@ public class Datendifferenzberechner {
         Differenz("2019-02-20 16:29:03", "2019-02-20 17:23:31");
     }
 
-    static long Differenz(String aDate, String tDate)
+    public static long Differenz(String aDate, String tDate)
     {
         try
         {
