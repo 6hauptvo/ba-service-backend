@@ -17,6 +17,7 @@ import java.text.DecimalFormat;
 import java.util.*;
 
 import static java.lang.Math.toIntExact;
+import static java.lang.String.valueOf;
 import static junit.framework.Assert.assertEquals;
 
 public class SolrConnect
@@ -150,7 +151,7 @@ public class SolrConnect
         }
 
         SolrDocumentList results = response.getResults();
-        return String.valueOf(results.get(0).get("t_message"));
+        return valueOf(results.get(0).get("t_message"));
     }
 
     public String getPreis(String id) {
@@ -168,7 +169,14 @@ public class SolrConnect
         }
 
         SolrDocumentList results = response.getResults();
-        return String.valueOf(results.get(0).get("price"));
+        Object doc = "";
+        ArrayList<Object> array1 = new ArrayList<Object>();
+        for (SolrDocument document : results) {
+            doc = ((List)document.getFieldValue("price")).get(0);
+            array1.add(doc);
+        }
+        return valueOf(array1).replace("[", "").replace("]", "");
+
     }
 
     public void printIdInDoc() throws IOException
@@ -189,7 +197,7 @@ public class SolrConnect
         FileWriter fw = new FileWriter("resources/outputID.txt");
         for (int i = 0; i < results.size(); ++i) {
             System.out.println(results.get(i));
-            fw.write(String.valueOf(results.get(i).get("id")));
+            fw.write(valueOf(results.get(i).get("id")));
             fw.write("\n");
         }
         fw.close();
