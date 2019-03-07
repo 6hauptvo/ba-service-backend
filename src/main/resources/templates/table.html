@@ -30,3 +30,34 @@
 <h2> Does it work? </h2>
 </body>
 </html>
+
+
+var options3 = {
+chart: {
+title: 'Vergleich der Klassifikationssysteme',
+subtitle: 'Based on a scale of 1 to 100'
+},
+series: {
+0: {axis: 'Klassifikationsrate in Prozent'},
+1: {axis: 'Klassifikationsrate in Prozent'}
+},
+axes: {
+y: {
+MotivationLevel: {label: 'Klassifikationsrate (1-100)'},
+EnergyLevel: {label: 'Klassifikationsrate(1-100)'}
+}
+},
+hAxis:
+{
+title: 'Statisitische Gütekriterien der Klassifikationen',
+viewWindow:
+{
+min: [7, 30, 0],
+max: [17, 30, 0]
+}
+},
+vAxis:
+{
+title: 'Rating (scale of 1-100)'
+}
+};

@@ -5,7 +5,7 @@ public class GetComplexity {
         System.out.println(countWord("Das hier ist ein Beispielsatz mit unterschiedlichen Wörtern, unter anderem lange Nomen wie zum Beispiel Ordnungswidrigkeit"));
     }
 
-    public static int  countWord(String message) {
+    public static int countWord(String message) {
 
         int wordCount = 0;
         char ch[] = new char[message.length()];

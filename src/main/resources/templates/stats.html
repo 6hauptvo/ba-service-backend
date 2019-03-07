@@ -13,7 +13,7 @@ function drawChart() {
 
         var options = {
           title: 'Length of Time vs. Price Comparison',
-          hAxis: {title: 'Length of Time', minValue: 0, maxValue: 50},
+          hAxis: {title: 'Length of Time', minValue: 0, maxValue: 30},
           vAxis: {title: 'Price', minValue: 0, maxValue: 180},
           trendlines: { 0: {} }
         };
@@ -29,7 +29,7 @@ function drawChart() {
         var options2 = {
           title: 'Text Length vs. Price Comparison',
           hAxis: {title: 'Text Length', minValue: 0, maxValue: 30},
-          vAxis: {title: 'Price', minValue: 0, maxValue: 200},
+          vAxis: {title: 'Price', minValue: 0, maxValue: 180},
           trendlines: { 0: {} }
 
         };
@@ -86,13 +86,55 @@ function drawChart() {
       }
 </script>
     <script th:text="'var ep=' + ${ep}+ ';'"></script>
-    <script th:text="'var egen=' + ${egen}+ ';'"></script>
-    <script th:text="'var esr=' + ${esr}+ ';'"></script>
-    <script th:text="'var esf=' + ${esf}+ ';'"></script>
+    <script th:text="'var etre=' + ${etre}+ ';'"></script>
+    <script th:text="'var wtre=' + ${wtre}+ ';'"></script>
     <script th:text="'var wgen=' + ${wgen}+ ';'"></script>
-    <script th:text="'var wsr=' + ${wsr}+ ';'"></script>
-    <script th:text="'var wsf=' + ${wsf}+ ';'"></script>
+    <script th:text="'var egen=' + ${egen}+ ';'"></script>
+    <script th:text="'var ekor=' + ${ekor}+ ';'"></script>
+    <script th:text="'var wkor=' + ${wkor}+ ';'"></script>
+    <script th:text="'var efal=' + ${efal}+ ';'"></script>
+    <script th:text="'var wfal=' + ${wfal}+ ';'"></script>
+    <script th:text="'var aefal=' + ${aefal}+ ';'"></script>
+    <script th:text="'var aekor=' + ${aekor}+ ';'"></script>
+    <script th:text="'var aegen=' + ${aegen}+ ';'"></script>
+    <script th:text="'var aetre=' + ${aetre}+ ';'"></script>
 
+    <script type="text/javascript">google.charts.load('current', {packages: ['corechart', 'bar']});
+    google.charts.setOnLoadCallback(drawDualY);
+
+    function drawDualY() {
+    var data3 = new google.visualization.DataTable();
+    data3.addColumn('string', 'Statistische Gütekriterien der Klassifikation');
+    data3.addColumn('number', 'Expertensystem');
+    data3.addColumn('number', 'Expertensystem unbereinigt');
+    data3.addColumn('number', 'Watsonsystem');
+
+    data3.addRows([
+    [{'Trefferquote'}, etre, aetre, wtre],
+    [{'Genauigkeit'}, egen, aegen, wgen],
+    [{'Korrektklassifikationsrate'}, ekor, aekor, wkor],
+    [{'Falschklassifikationsrate'}, efal, aefal, wfal],
+    ]);
+
+    var options3 =
+    {
+        title: 'Vergleich der Klassifikationssysteme',
+        colors: ['#9575cd', '#33ac71', #b87333],
+        hAxis: {
+          title: 'Statisitische Gütekriterien der Klassifikationen',
+          viewWindow: {
+            min: [7, 30, 0],
+            max: [17, 30, 0]
+          }
+        },
+        vAxis: {
+          title: 'Rating (scale of 1-100)'
+        }
+      };
+    var materialChart3 = new google.charts.Bar(document.getElementById('chart3_div'));
+    materialChart3.draw(data3, options3);
+    }
+</script>
 </head>
 <body>
 <h1> Dauer-Preis-Vergleich </h1>
@@ -105,17 +147,26 @@ function drawChart() {
 <p> Der Wert 1 in der Tabelle repräsentiert true, der Wert 2 false. Aus der Tabelle lässt sich also ablesen,
 wie oft das Watsonsystem mit den Rechtsexperten bezüglich true übereinstimmt - an der Stelle 1-1 - und abweicht - bei
 1-2. Gleiches gilt für die Übereinstimmung bezüglich false - 2-2 - und die Abweichung bezüglich false - 2-1.</p>
-<p> <center><span th:text="'Richtig: ' + ${wsr}"></span></center></p>
-<p> <center><span th:text="'Falsch: ' + ${wsf}"></span></center></p>
-<p> <center><b><span th:text="'Genauigkeit: ' + ${wgen}"></span></b></center></p>
+<p> <center><b><span th:text="'Recall: ' + ${wtre}"></span></b></center></p>
+<p> <center> Als Recall bezeichnet man die Trefferquote. Die Trefferquote gibt den Anteil der korrekt als positiv klassifizierten Objekte an der Gesamtheit der tatsächlich positiven Objekte an. </center></p>
+<p> <center><b><span th:text="'Precision: ' + ${wgen}"></span></b></center></p>
+<p> <center> Als Precision bezeichnet man die Genauigkeit oder Relevanz. Sie gibt den Anteil der korrekt als positiv klassifizierten Ergebnisse an der Gesamtheit der als positiv klassifizierten Ergebnisse an. </center></p>
+<p> <center><b><span th:text="'Korrektklassifikationsrate: ' + ${wkor}"></span></b></center></p>
+<p> <center><b><span th:text="'Falschklassifikationsrate: ' + ${wfal}"></span></b></center></p>
+<p> <center> Die Raten geben jeweils an wieviele Objekte prozentual richtig beziehungsweise falsch klassifiziert wurden.</center></p>
 <h1> Konfusionsmatrix für das Expertensystem im Vergleich zu den Rechtsexperten</h1>
 <div id='table2_div'></div>
 <p> Der Wert 1 in der Tabelle repräsentiert true, der Wert 2 false. Aus der Tabelle lässt sich also ablesen,
     wie oben ablesen wie oft hier das Expertensystem mit den Rechtsexperten bezüglich true übereinstimmt - an der Stelle 1-1 - und abweicht - bei
     1-2. Gleiches gilt für die Übereinstimmung bezüglich false - 2-2 - und die Abweichung bezüglich false - 2-1.</p>
-<p> <center><span th:text="'Richtig: ' + ${esr}"></span></center></p>
-<p> <center><span th:text="'Falsch: ' + ${esf}"></span></center></p>
-<p> <center><b><span th:text="'Genauigkeit: ' + ${egen}"></span></b></center></p>
+<p> <center><b><span th:text="'Recall: ' + ${etre} + ' (ohne Voraussortierung der nichtzuordnenbaren Fälle: ' + ${aetre + ')'}"></span></b></center></p>
+<p> <center> Als Recall bezeichnet man die Trefferquote. Die Trefferquote gibt den Anteil der korrekt als positiv klassifizierten Objekte an der Gesamtheit der tatsächlich positiven Objekte an. </center></p>
+<p> <center><b><span th:text="'Precision: ' + ${egen} + ' (ohne Voraussortierung der nichtzuordnenbaren Fälle: ' + ${aegen} + ')'"></span></b></center></p>
+<p> <center> Als Precision bezeichnet man die Genauigkeit oder Relevanz. Sie gibt den Anteil der korrekt als positiv klassifizierten Ergebnisse an der Gesamtheit der als positiv klassifizierten Ergebnisse an. </center></p>
+<p> <center><b><span th:text="'Korrektklassifikationsrate: ' + ${ekor} + ' (ohne Voraussortierung der nichtzuordnenbaren Fälle: ' + ${aekor} + ')'"></span></b></center></p>
+<p> <center><b><span th:text="'Falschklassifikationsrate: ' + ${efal} + ' (ohne Voraussortierung der nichtzuordnenbaren Fälle: ' + ${aefal} + ')'"></span></b></center></p>
+<p> <center> Die Raten geben jeweils an wieviele Objekte prozentual richtig beziehungsweise falsch klassifiziert wurden.</center></p>
 <p> <center><span th:text="'Problemfälle, die nicht klassifiziert werden konnten: ' + ${ep}"></span> </center></p>
+<div id='chart3_div'></div>
 </body>
 </html>
