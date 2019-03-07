@@ -16,8 +16,8 @@ import java.util.ArrayList;
 //import org.json.*;
 
 public class PriceLengthClassifier {
-    static SolrClient client = new HttpSolrClient.Builder("http://ltdemos:8983/solr/fea-schema-less-2").build();
-    SolrConnect connect = new SolrConnect();
+    private static SolrClient client = new HttpSolrClient.Builder("http://ltdemos:8983/solr/fea-schema-less-2").build();
+    private SolrConnect connect = new SolrConnect();
 
     public static void main(String[] args) throws IOException {
         FileWriter fw = new FileWriter("resources/averages_length.txt");

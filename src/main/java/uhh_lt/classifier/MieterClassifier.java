@@ -141,8 +141,6 @@ public class MieterClassifier implements ClassifierInterface
 
     public String getMieterwahrscheinlichkeitAsString()
     {
-        String mieterwahrscheinlichkeitString = "";
-
         if (mieterWahrscheinlichkeit > 0.5)
         {
             return "Analyse: Mieter mit einer Wahrscheinlichkeit von " + mieterWahrscheinlichkeit;

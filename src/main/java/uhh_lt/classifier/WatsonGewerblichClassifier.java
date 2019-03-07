@@ -8,8 +8,8 @@ import com.ibm.watson.developer_cloud.service.security.IamOptions;
 
 public class WatsonGewerblichClassifier implements ClassifierInterface {
 
-    NaturalLanguageClassifier naturalLanguageClassifier;
-    Classification classification;
+    private NaturalLanguageClassifier naturalLanguageClassifier;
+    private Classification classification;
 
 
     public WatsonGewerblichClassifier() {
