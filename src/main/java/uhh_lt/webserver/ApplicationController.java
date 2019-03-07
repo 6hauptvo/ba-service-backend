@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -66,11 +67,7 @@ public class ApplicationController  extends SpringBootServletInitializer {
     private List<String> readIdFile(String filename) {
 
         Scanner s = null;
-        try {
-            s = new Scanner(new File(filename));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        s = new Scanner(getClass().getClassLoader().getResourceAsStream(filename));
         List<String> out = new ArrayList<>();
         while (s.hasNextLine()){
             out.add(s.nextLine());
@@ -155,7 +152,7 @@ public class ApplicationController  extends SpringBootServletInitializer {
     @RequestMapping("/")
     String home()
     {
-        List<String> ids = readIdFile("resources/outputID.txt");
+        List<String> ids = readIdFile("outputID.txt");
         StringBuilder sb = new StringBuilder();
 
 
@@ -191,7 +188,7 @@ public class ApplicationController  extends SpringBootServletInitializer {
     @RequestMapping("/gewerblich")
     String home2()
     {
-        List<String> ids = readIdFile("resources/outputID.txt");
+        List<String> ids = readIdFile("outputID.txt");
         StringBuilder sb = new StringBuilder();
 
 
