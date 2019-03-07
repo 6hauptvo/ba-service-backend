@@ -30,11 +30,6 @@ public class SolrConnect
          jsonImport = new JsonImport();
     }
 
-    public void store(JSONObject object)
-    {
-       store(object, true);
-    }
-
     public void store(JSONObject object, boolean commit) {
         MieterClassifier mc = new MieterClassifier();
         WatsonMieterClassifier wmc = new WatsonMieterClassifier();
@@ -176,7 +171,7 @@ public class SolrConnect
         return String.valueOf(results.get(0).get("price"));
     }
 
-    public void IdSearch() throws IOException
+    public void printIdInDoc() throws IOException
     {
         SolrQuery query = new SolrQuery();
         query.setQuery("*:*").setFields("id").setStart(0).setRows(10000);
@@ -206,7 +201,7 @@ public class SolrConnect
      * @param docID  Die ID, den Primärschlüssel, als String
      * @param istMieter  Wenn es sich um einen Mieter handelt true, sonst false
      */
-    public void MieterButtonsPushed(String docID, Object istMieter)
+    public void mieterButtonsPushed(String docID, Object istMieter)
     {
         SolrQuery query = new SolrQuery();
         query.set("q", "id:"+ docID);
@@ -256,7 +251,7 @@ public class SolrConnect
      * Fügt in Solr das neue Feld "Problemfall" hinzu und setzt dieses auf den eingegebenen Wert
      * @param docID Die DokumentenID, der Primärschlüssel
      */
-    public void MieterProblemfallButtonPushed(String docID)
+    public void mieterProblemfallButtonPushed(String docID)
     {
         SolrQuery query = new SolrQuery();
         query.set("q", "id:"+ docID);
@@ -291,7 +286,7 @@ public class SolrConnect
         }
     }
 
-    public void GewerblichButtonsPushed(String docID, boolean istGewerblich)
+    public void gewerblichButtonsPushed(String docID, boolean istGewerblich)
     {
         SolrQuery query = new SolrQuery();
         query.set("q", "id:"+ docID);
@@ -333,7 +328,7 @@ public class SolrConnect
         }
     }
 
-    public void GewerblichProblemfallButtonPushed(String docID)
+    public void gewerblichProblemfallButtonPushed(String docID)
     {
         SolrQuery query = new SolrQuery();
         query.set("q", "id:"+ docID);
@@ -463,7 +458,7 @@ public class SolrConnect
      * @param object Eine zu setzende Änderunng
      **/
 
-    public void ChangeValueByField(String docID, String fieldName, Object object)
+    public void changeValueByField(String docID, String fieldName, Object object)
     {
         SolrQuery query = new SolrQuery();
         query.set("q", "id:"+docID);
@@ -519,7 +514,7 @@ public class SolrConnect
      * Die Methode liest die Textdatei "outputID.txt" ein und gibt eine Arrayliste zurück
      * @return
      */
-    public ArrayList IDEinleser()
+    public ArrayList idEinleser()
     {
         ArrayList arrayList = new ArrayList();
 
@@ -560,7 +555,7 @@ public class SolrConnect
      * @param docId
      * @return
      */
-    public Object FragenAusgeber(String docId)
+    public Object fragenAusgeber(String docId)
     {
         SolrQuery query = new SolrQuery();
         query.set("q", "id:"+docId);
@@ -589,19 +584,19 @@ public class SolrConnect
      * Die Methode aktualisiert in Solr alle Felder "Expertensystem_istmieter" und "Expertensystem_wert", indem neue
      * Klassifizierungen durchgeführt und die alten damit überschrieben werden
      */
-    public void ChangeExpertensystemFields()
+    public void changeExpertensystemFields()
     {
         ArrayList arrayList = new ArrayList();
-        arrayList = IDEinleser();
+        arrayList = idEinleser();
 
         for(int i = 0; i<arrayList.size(); i++)
         {
-            Object question = FragenAusgeber(arrayList.get(i).toString());
+            Object question = fragenAusgeber(arrayList.get(i).toString());
             MieterClassifier mieterClassifier = new MieterClassifier();
             Object value = mieterClassifier.istHauptklasse(question.toString());
             Object value2 = mieterClassifier.classify(question.toString());
-            ChangeValueByField(arrayList.get(i).toString(), "Expertensystem_istmieter", value);
-            ChangeValueByField(arrayList.get(i).toString(), "Expertensystem_wert", value2);
+            changeValueByField(arrayList.get(i).toString(), "Expertensystem_istmieter", value);
+            changeValueByField(arrayList.get(i).toString(), "Expertensystem_wert", value2);
         }
     }
 
@@ -609,19 +604,19 @@ public class SolrConnect
      * Die Methode aktualisiert in Solr alle Felder "Watson_istmieter" und "Watson", indem neue Klassifizierungen durchgeführt
      * und die alten damit überschrieben werden
      */
-    public void ChangeWatsonFields()
+    public void changeWatsonFields()
     {
         ArrayList arrayList = new ArrayList();
-        arrayList = IDEinleser();
+        arrayList = idEinleser();
 
         for(int i = 0; i<arrayList.size(); i++)
         {
-            Object question = FragenAusgeber(arrayList.get(i).toString());
+            Object question = fragenAusgeber(arrayList.get(i).toString());
             WatsonMieterClassifier watsonmieterClassifier = new WatsonMieterClassifier();
             Object value = watsonmieterClassifier.classify(question.toString());
             Object value2 = watsonmieterClassifier.istHauptklasse(question.toString());
-            ChangeValueByField(arrayList.get(i).toString(), "Watson_istmieter", value2);
-            ChangeValueByField(arrayList.get(i).toString(), "Watson", value);
+            changeValueByField(arrayList.get(i).toString(), "Watson_istmieter", value2);
+            changeValueByField(arrayList.get(i).toString(), "Watson", value);
         }
     }
 
@@ -629,7 +624,7 @@ public class SolrConnect
      * Anhand einer ID wird das JSON-Objekt aus Solr gelöscht
      * @param docID Eine ID als String
      */
-    public void SolrDeleteByID(String docID)
+    public void solrDeleteByID(String docID)
     {
         try {
             client.deleteById(docID);
@@ -652,7 +647,7 @@ public class SolrConnect
      * @param fieldName Nimmt einen Feldnamen entgegen, um den Wert des Feldes dem Feld "Preis" zu vergleichen
      * @return
      */
-    public String Comparer(String fieldName) {
+    public String comparer(String fieldName) {
         StringBuilder sb = new StringBuilder();
         SolrQuery query = new SolrQuery();
         query.set("q", "*:*");
@@ -685,23 +680,7 @@ public class SolrConnect
             hmap.put(key, array2.get(i).toString());
         }
 
-        Iterator<Integer> iterator = hmap.keySet().iterator();
-
-        for(int i= 0; i<=700;i++)
-        {
-            int value = 0;
-            int tmp;
-            while (iterator.hasNext())
-            {
-                tmp = iterator.next();
-                if (tmp > value)
-                {
-                    value = tmp;
-                }
-            }
-            hmap.remove(value);
-        }
-
+        hmap = removeXValuesFromHashMap(20, hmap);
 
         Map<Integer, String> map = new TreeMap<Integer, String>(hmap);
         Set set2 = map.entrySet();
@@ -714,13 +693,41 @@ public class SolrConnect
     }
 
     /**
+     *
+     * @param anzahl
+     * @param hmap
+     * @return
+     */
+    HashMap removeXValuesFromHashMap(int anzahl, HashMap hmap)
+    {
+        Iterator<Integer> iterator = hmap.keySet().iterator();
+
+        for(int i= 0; i<=anzahl;i++)
+        {
+            iterator =hmap.keySet().iterator();
+            int value = 0;
+            int tmp;
+            while (iterator.hasNext())
+            {
+                tmp = iterator.next();
+                if (tmp > value)
+                {
+                    value = tmp;
+                }
+            }
+            hmap.remove(value);
+        }
+        return hmap;
+    }
+
+    /**
      * Es wird ein String erstellt, der aufsteigend nach Dauer sortiert eine Reihe von [Dauer, Preis] Substrings
      * enthält
      * @return
      */
-    public String DauerPreisComparer()
+    public String dauerPreisComparer()
     {
-        return Comparer("t_time");
+        return comparer("t_time");
     }
 
     /**
@@ -728,9 +735,9 @@ public class SolrConnect
      * enthält
      * @return
      */
-    public String FragelängePreisComparer()
+    public String fragelängePreisComparer()
     {
-        return Comparer("t_length");
+        return comparer("t_length");
     }
 
     /**
@@ -1133,6 +1140,8 @@ public class SolrConnect
 
     /**
      *
+     * @param text
+     * @return
      */
     public boolean istProblemfallMieter(String text)
     {
@@ -1161,6 +1170,8 @@ public class SolrConnect
 
     /**
      *
+     * @param text
+     * @return
      */
     public String absendeButtonPushed(String text)
     {
