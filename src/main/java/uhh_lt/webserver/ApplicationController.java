@@ -274,6 +274,21 @@ public class ApplicationController  extends SpringBootServletInitializer {
         model.addAttribute("w22", sm.getWatson22());
         return "table"; //view
     }
+@RequestMapping("/result")
+    public String result(Model model)
+    {
+        SolrConnect sc = new SolrConnect();
+        Preisempfehlungsberechner pb = new Preisempfehlungsberechner();
+        model.addAttribute("preis", "asdf");
+        return "result";
+
+    }
+    @RequestMapping("/welcome")
+    public String welcome(Model model)
+    {
+        return "welcome";
+
+    }
 
     @RequestMapping("/test")
     public String main(Model model)
