@@ -2,7 +2,9 @@ package uhh_lt.webserver;
 
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
+import weka.classifiers.Classifier;
 import weka.classifiers.functions.LinearRegression;
+import weka.core.DenseInstance;
 import weka.core.Instances;
 import weka.core.converters.ConverterUtils;
 
@@ -27,7 +29,7 @@ public class GetRecommendedPrice {
             e.printStackTrace();
         }
         writer.write("Anzahl der Wörter, komplexe Nomen, Preis");
-        writer.write("/n");
+        writer.write("\n");
         for (String id:ids) {
             String frage = connect.getFrage(id);
             int wortAnzahl = GetComplexity.countWord(frage);
@@ -47,14 +49,28 @@ public class GetRecommendedPrice {
         writer.close();
     }
 
-    public static double getPrice(String frage) throws Exception {
+    public double getPrice(String frage) throws Exception {
+
+        Classifier lrLoaded = (Classifier) weka.core.SerializationHelper.read(getClass().getClassLoader().getResourceAsStream("price.model"));
+        int wortAnzahl = GetComplexity.countWord(frage);
+        int nounCount = GetComplexity.complexNounCount(frage);
+        double[] testCase = new double[]{wortAnzahl, nounCount};
+
+        DenseInstance inst = new DenseInstance(1.0, testCase);
+        double prediction = lrLoaded.classifyInstance(inst);
+
+        System.out.println(prediction);
+        return prediction;
+    }
+
+    public void trainModel() throws Exception {
         ConverterUtils.DataSource source = new ConverterUtils.DataSource("resources/price_training_2.csv");
         Instances dataset = source.getDataSet();
-        dataset.setClassIndex(dataset.numAttributes()-1);
+        dataset.setClassIndex(dataset.numAttributes() - 1);
         LinearRegression lr = new LinearRegression();
         lr.buildClassifier(dataset);
+        weka.core.SerializationHelper.write("resources/price.model", lr);
 
-        return 0;
     }
 
     private static List<String> readIdFile(String filename) {

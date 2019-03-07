@@ -13,7 +13,7 @@ public class LinearRegressionClassifier {
 
     public static void main(String args[]) throws Exception{
         //load dataset
-        DataSource source = new DataSource("resources/price_training.csv");
+        DataSource source = new DataSource("resources/LangeZeitPreis.csv");
         Instances dataset = source.getDataSet();
         //set class index to the last attribute
         System.out.println(dataset);
@@ -53,8 +53,5 @@ public class LinearRegressionClassifier {
         }
         System.out.println();
         System.out.println("Estimated test price for (orig: 40)" + ": " + prediction);
-
-
-
     }
 }
