@@ -237,7 +237,7 @@ public class ApplicationController  extends SpringBootServletInitializer {
         model.addAttribute("l12", sm.getListe12());
         model.addAttribute("l21", sm.getListe21());
         model.addAttribute("l22", sm.getListe22());
-        model.addAttribute("ep", sc.getAnzahlProblemfälle());
+        model.addAttribute("ep", sc.getAnzahlProblemfaelle());
         model.addAttribute("etre", sm.getTrefferquoteListen());
         model.addAttribute("egen", sm.getGenauigkeitListen());
         model.addAttribute("wtre", sm.getTrefferquoteWatson());

@@ -42,7 +42,7 @@ public class Statistikmethoden
      */
     public int getWatson11()
     {
-        return solrConnect.getÜbereinstimmung("Watson_istmieter", true, true);
+        return solrConnect.getUebereinstimmung("Watson_istmieter", true, true);
     }
 
     /**
@@ -51,7 +51,7 @@ public class Statistikmethoden
      */
     public int getWatson22()
     {
-        return solrConnect.getÜbereinstimmung("Watson_istmieter", false, false);
+        return solrConnect.getUebereinstimmung("Watson_istmieter", false, false);
     }
 
     /**
@@ -61,7 +61,7 @@ public class Statistikmethoden
      */
     public int getWatson12()
     {
-        return solrConnect.getÜbereinstimmung("Watson_istmieter", true, false);
+        return solrConnect.getUebereinstimmung("Watson_istmieter", true, false);
     }
 
     /**
@@ -71,7 +71,7 @@ public class Statistikmethoden
      */
     public int getWatson21()
     {
-        return solrConnect.getÜbereinstimmung("Watson_istmieter",false, true);
+        return solrConnect.getUebereinstimmung("Watson_istmieter",false, true);
     }
 
     /**
@@ -80,7 +80,7 @@ public class Statistikmethoden
      */
     public int getListe11()
     {
-        return solrConnect.getÜbereinstimmung("Expertensystem_istmieter", true, true);
+        return solrConnect.getUebereinstimmung("Expertensystem_istmieter", true, true);
     }
 
     /**
@@ -89,7 +89,7 @@ public class Statistikmethoden
      */
     public int getListe22()
     {
-        return solrConnect.getÜbereinstimmung("Expertensystem_istmieter", false, false);
+        return solrConnect.getUebereinstimmung("Expertensystem_istmieter", false, false);
     }
 
     /**
@@ -99,7 +99,7 @@ public class Statistikmethoden
      */
     public int getListe12()
     {
-        return solrConnect.getÜbereinstimmung("Expertensystem_istmieter",true, false);
+        return solrConnect.getUebereinstimmung("Expertensystem_istmieter",true, false);
     }
 
     /**
@@ -109,7 +109,7 @@ public class Statistikmethoden
      */
     public int getListe21()
     {
-        return solrConnect.getÜbereinstimmung("Expertensystem_istmieter",false, true)-solrConnect.getAnzahlProblemfälle();
+        return solrConnect.getUebereinstimmung("Expertensystem_istmieter",false, true)-solrConnect.getAnzahlProblemfaelle();
     }
 
     /**
@@ -119,7 +119,7 @@ public class Statistikmethoden
      */
     public int getListe21Alle()
     {
-        return solrConnect.getÜbereinstimmung("Expertensystem_istmieter", false, true);
+        return solrConnect.getUebereinstimmung("Expertensystem_istmieter", false, true);
     }
 
     /**
@@ -197,7 +197,7 @@ public class Statistikmethoden
     public String getKorrektklassifikationsrateListen()
     {
         int richtige = getListe11()+getListe22();
-        int alle = solrConnect.getAnzahlRechtsexpertenfelder()-solrConnect.getAnzahlProblemfälle();
+        int alle = solrConnect.getAnzahlRechtsexpertenfelder()-solrConnect.getAnzahlProblemfaelle();
         DecimalFormat f = new DecimalFormat("0.00");
         if(solrConnect.getAnzahlRechtsexpertenfelder()>0)
         {
@@ -229,7 +229,7 @@ public class Statistikmethoden
     public String getFalschklassifikationsrateListen()
     {
         int richtige = getListe12()+getListe21();
-        int alle = solrConnect.getAnzahlRechtsexpertenfelder()-solrConnect.getAnzahlProblemfälle();
+        int alle = solrConnect.getAnzahlRechtsexpertenfelder()-solrConnect.getAnzahlProblemfaelle();
         DecimalFormat f = new DecimalFormat("0.00");
         if(solrConnect.getAnzahlRechtsexpertenfelder()>0)
         {
