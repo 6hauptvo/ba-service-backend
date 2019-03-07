@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import uhh_lt.classifier.MieterClassifier;
+import uhh_lt.datenbank.SolrConnect;
+import uhh_lt.datenbank.Statistikmethoden;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -218,97 +220,36 @@ public class ApplicationController  extends SpringBootServletInitializer {
     }
 
 
-    @RequestMapping("/hello")
-    String stats()
-    {
-        SolrConnect sc = new SolrConnect();
 
-
-        /**sb.append("<script type=\"text/javascript\">" +
-            "google.charts.load('current', {'packages':['table']});\n" +
-            "google.charts.setOnLoadCallback(drawTable);\n" +
-
-            "function drawTable() {\n" +
-            "var data = new google.visualization.DataTable();\n" +
-            "data.addColumn('number', '1');\n" +
-            "data.addColumn('number', '2');\n" +
-            "data.addRows([\n" +
-            "[sc.getWatson11();,  sc.getWatson12();],\n" +
-            "[sc.getWatson21();,  sc.getWatson22();],\n" +
-            "]);\n" +
-
-            "var table = new google.visualization.Table(document.getElementById('table_div'));\n" +
-
-            "table.draw(data, {showRowNumber: true, width: '100%', height: '100%'});\n"+
-            "}\n" +
-            "</script>  );
-
-        sb.append("<h1> Dauer-Längen-Vergleich</h1>; \n");
-        sb.append("<div id=table_div></div>\");\n");
-*/
-        String sb = "<html><head>" +
-                "<script type=\"text/javascript\" src=\"https://www.gstatic.com/charts/loader.js\"></script>\n" +
-                "<script type=\"text/javascript\">" +
-                "google.charts.load('current', {packages: ['corechart', 'line']});\n" +
-                "google.charts.setOnLoadCallback(drawCurveTypes);\n" +
-                "\n" +
-                "function drawCurveTypes() {\n" +
-                "      var data = new google.visualization.DataTable();\n" +
-                "      data.addColumn('number', 'time');\n" +
-                "      data.addColumn('number', 'price');\n" +
-                "\n" +
-                "      data.addRows([\n" +
-                sc.dauerPreisComparer() + "\n" +
-                "      ]);\n" +
-                "\n" +
-                "      var options = {\n" +
-                "        hAxis: {\n" +
-                "          title: 'Time'\n" +
-                "        },\n" +
-                "        vAxis: {\n" +
-                "          title: 'Price'\n" +
-                "        },\n" +
-                "        series: {\n" +
-                "          1: {curveType: 'function'}\n" +
-                "        }\n" +
-                "      };\n" +
-                "\n" +
-                "      var chart = new google.visualization.LineChart(document.getElementById('chart_div'));\n" +
-                "      chart.draw(data, options);\n" +
-                "    }" +
-                "</script></head><body>\"  <div id='chart_div'></div>\");\n" +
-                "<h2> Vergleich Watson mit </h2>); \n" +
-                "</body></html>";
-        return sb;
-    }
 
     @RequestMapping("/stats")
     public String staty(Model model)
     {
         SolrConnect sc = new SolrConnect();
-        model.addAttribute("message", sc.dauerPreisComparer());
-        model.addAttribute("message1", sc.fragelängePreisComparer());
-        model.addAttribute("w11", sc.getWatson11());
-        model.addAttribute("w12", sc.getWatson12());
-        model.addAttribute("w21", sc.getWatson21());
-        model.addAttribute("w22", sc.getWatson22());
-        model.addAttribute("l11", sc.getListe11());
-        model.addAttribute("l12", sc.getListe12());
-        model.addAttribute("l21", sc.getListe21());
-        model.addAttribute("l22", sc.getListe22());
+        Statistikmethoden sm = new Statistikmethoden();
+        model.addAttribute("message", sm.dauerPreisComparer());
+        model.addAttribute("message1", sm.fragelängePreisComparer());
+        model.addAttribute("w11", sm.getWatson11());
+        model.addAttribute("w12", sm.getWatson12());
+        model.addAttribute("w21", sm.getWatson21());
+        model.addAttribute("w22", sm.getWatson22());
+        model.addAttribute("l11", sm.getListe11());
+        model.addAttribute("l12", sm.getListe12());
+        model.addAttribute("l21", sm.getListe21());
+        model.addAttribute("l22", sm.getListe22());
         model.addAttribute("ep", sc.getAnzahlProblemfälle());
-        model.addAttribute("etre", sc.getTrefferquoteListen());
-        model.addAttribute("egen", sc.getGenauigkeitListen());
-        model.addAttribute("wtre", sc.getTrefferquoteWatson());
-        model.addAttribute("wgen", sc.getGenauigkeitWatson());
-        model.addAttribute("ekor", sc.getKorrektklassifikationsrateListen());
-        model.addAttribute("efal", sc.getFalschklassifikationsrateListen());
-        model.addAttribute("wkor", sc.getKorrektklassifikationsrateWatson());
-        model.addAttribute("wfal", sc.getFalschklassifikationsrateWatson());
-        model.addAttribute("aekor", sc.getAlleKorrektklassifikationsrateListen());
-        model.addAttribute("aefal", sc.getAlleFalschklassifikationsrateListen());
-        model.addAttribute("aetre", sc.getAlleTrefferquoteListen());
-        model.addAttribute("aegen", sc.getAlleGenauigkeitListen());
+        model.addAttribute("etre", sm.getTrefferquoteListen());
+        model.addAttribute("egen", sm.getGenauigkeitListen());
+        model.addAttribute("wtre", sm.getTrefferquoteWatson());
+        model.addAttribute("wgen", sm.getGenauigkeitWatson());
+        model.addAttribute("ekor", sm.getKorrektklassifikationsrateListen());
+        model.addAttribute("efal", sm.getFalschklassifikationsrateListen());
+        model.addAttribute("wkor", sm.getKorrektklassifikationsrateWatson());
+        model.addAttribute("wfal", sm.getFalschklassifikationsrateWatson());
+        model.addAttribute("aekor", sm.getAlleKorrektklassifikationsrateListen());
+        model.addAttribute("aefal", sm.getAlleFalschklassifikationsrateListen());
+        model.addAttribute("aetre", sm.getAlleTrefferquoteListen());
+        model.addAttribute("aegen", sm.getAlleGenauigkeitListen());
         return "stats"; //view
     }
 
@@ -316,7 +257,8 @@ public class ApplicationController  extends SpringBootServletInitializer {
     public String charty( Model model)
     {
         SolrConnect sc = new SolrConnect();
-        model.addAttribute("message", sc.dauerPreisComparer());
+        Statistikmethoden sm = new Statistikmethoden();
+        model.addAttribute("message", sm.dauerPreisComparer());
 
         return "charts"; //view
     }
@@ -325,10 +267,11 @@ public class ApplicationController  extends SpringBootServletInitializer {
     public String mainy (Model model)
     {
         SolrConnect sc = new SolrConnect();
-        model.addAttribute("w11", sc.getWatson11());
-        model.addAttribute("w12", sc.getWatson12());
-        model.addAttribute("w21", sc.getWatson21());
-        model.addAttribute("w22", sc.getWatson22());
+        Statistikmethoden sm = new Statistikmethoden();
+        model.addAttribute("w11", sm.getWatson11());
+        model.addAttribute("w12", sm.getWatson12());
+        model.addAttribute("w21", sm.getWatson21());
+        model.addAttribute("w22", sm.getWatson22());
         return "table"; //view
     }
 

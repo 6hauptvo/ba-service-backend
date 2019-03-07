@@ -1,17 +1,14 @@
-package uhh_lt.webserver;
-import org.json.simple.JSONObject;
+package uhh_lt.datenbank;
 
 //import org.json.*;
-import uhh_lt.webserver.SolrConnect;
-
-import java.io.IOException;
 
 public class SolrConnectTester {
 
     public static void main(String[] args)
     {
         SolrConnect connect = new SolrConnect();
-        connect.getWatson22();
+        Statistikmethoden sm = new Statistikmethoden();
+        connect.getPreis("322600");
 
         /**
         SolrConnect connect = new SolrConnect();

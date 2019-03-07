@@ -1,4 +1,4 @@
-package uhh_lt.webserver;
+package uhh_lt.datenbank;
 
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
@@ -11,9 +11,12 @@ import org.apache.solr.common.SolrInputDocument;
 import org.json.simple.JSONObject;
 import uhh_lt.classifier.MieterClassifier;
 import uhh_lt.classifier.WatsonMieterClassifier;
+import uhh_lt.webserver.Datendifferenzberechner;
+import uhh_lt.webserver.JsonImport;
+import uhh_lt.webserver.Komplexitätsberechner;
+import uhh_lt.webserver.Preisempfehlungsberechner;
 
 import java.io.*;
-import java.text.DecimalFormat;
 import java.util.*;
 
 import static java.lang.Math.toIntExact;
@@ -650,6 +653,33 @@ public class SolrConnect
         }
     }
 
+
+    /**
+     * Eine allgemeine Methode um Übereinstimmungen zwischen den Listen oder  Watson mit den Rechtsexperten übereinstimmt
+     * @param fieldname1
+     * @param param1
+     * @param param2
+     * @return
+     */
+    public int getÜbereinstimmung(String fieldname1, Object param1, Object param2)
+    {
+        SolrQuery query = new SolrQuery();
+        query.set("q", ""+fieldname1+":"+param1+" AND "+"Rechtsexperten_istmieter"+":"+param2);
+        query.setRows(10001);
+        QueryResponse response = null;
+        try {
+            response = client.query(query);
+        } catch (SolrServerException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        SolrDocumentList results = response.getResults();
+        long key = results.getNumFound();
+        int keyInt = toIntExact(key);
+        return keyInt;
+    }
+
     /**
      * Die Methode nimmt einen Feldnamen entgegen und vergleicht ihn mit dem Feld "Preis"
      * @param fieldName Nimmt einen Feldnamen entgegen, um den Wert des Feldes dem Feld "Preis" zu vergleichen
@@ -728,137 +758,6 @@ public class SolrConnect
         return hmap;
     }
 
-    /**
-     * Es wird ein String erstellt, der aufsteigend nach Dauer sortiert eine Reihe von [Dauer, Preis] Substrings
-     * enthält
-     * @return
-     */
-    public String dauerPreisComparer()
-    {
-        return comparer("t_time");
-    }
-
-    /**
-     * Es wird ein String erstellt, der aufsteigend nach Dauer sortiert eine Reihe von [Fragelänge, Preis] Substrings
-     * enthält
-     * @return
-     */
-    public String fragelängePreisComparer()
-    {
-        return comparer("t_length");
-    }
-
-    /**
-     * Eine allgemeine Methode um Übereinstimmungen zwischen den Listen oder  Watson mit den Rechtsexperten übereinstimmt
-     * @param fieldname1
-     * @param param1
-     * @param param2
-     * @return
-     */
-    public int getÜbereinstimmung(String fieldname1, Object param1, Object param2)
-    {
-        SolrQuery query = new SolrQuery();
-        query.set("q", ""+fieldname1+":"+param1+" AND "+"Rechtsexperten_istmieter"+":"+param2);
-        query.setRows(10001);
-        QueryResponse response = null;
-        try {
-            response = client.query(query);
-        } catch (SolrServerException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        SolrDocumentList results = response.getResults();
-        long key = results.getNumFound();
-        int keyInt = toIntExact(key);
-        return keyInt;
-    }
-
-    /**
-     * Ermittelt, wie häufig Watson mit den Rechtsexperten mit jeweils true übereinstimmt
-     * @return
-     */
-    public int getWatson11()
-    {
-        return getÜbereinstimmung("Watson_istmieter", true, true);
-    }
-
-    /**
-     * Ermittelt, wie häufig Watson mit den Rechtsexperten mit jeweils false übereinstimmt
-     * @return
-     */
-    public int getWatson22()
-    {
-        return getÜbereinstimmung("Watson_istmieter", false, false);
-    }
-
-    /**
-     * Ermittelt, wie häufig Watson mit den Rechtsexperten nicht übereinstimmt, da Watson true sagt und die Rechtsexperten
-     * sagen false
-     * @return
-     */
-    public int getWatson12()
-    {
-        return getÜbereinstimmung("Watson_istmieter", true, false);
-    }
-
-    /**
-     * Ermittelt, wie häufig Watson mit den Rechtsexperten nicht übereinstimmt, da Watson false sagt und die Rechtsexperten
-     * sagen true
-     * @return
-     */
-    public int getWatson21()
-    {
-        return getÜbereinstimmung("Watson_istmieter",false, true);
-    }
-
-    /**
-     * Ermittelt, wie häufig die Listen mit den Rechtsexperten übereinstimmen mit jeweils true
-     * @return
-     */
-    public int getListe11()
-    {
-        return getÜbereinstimmung("Expertensystem_istmieter", true, true);
-    }
-
-    /**
-     * Ermittelt, wie häufig die Listen mit den Rechtsexperten übereinstimmen mit jeweils false
-     * @return
-     */
-    public int getListe22()
-    {
-        return getÜbereinstimmung("Expertensystem_istmieter", false, false);
-    }
-
-    /**
-     * Ermittelt, wie häufig die Listen mit den Rechtsexperten nicht übereinstimmt, da die Listen true und die
-     * Rechtsexperten false sagen
-     * @return
-     */
-    public int getListe12()
-    {
-        return getÜbereinstimmung("Expertensystem_istmieter",true, false);
-    }
-
-    /**
-     * Ermittelt, wie häufig die Listen mit den Rechtsexperten nicht übereinstimmt, da die Listen false und die
-     * Rechtsexperten true sagen
-     * @return
-     */
-    public int getListe21()
-    {
-        return getÜbereinstimmung("Expertensystem_istmieter",false, true)-getAnzahlProblemfälle();
-    }
-
-    /**
-     * Ermittelt, wie häufig die Listen ohne Bereinigung der Problemfälle mit den Rechtsexperten nicht übereinstimmt,
-     * da die Listen false und die Rechtsexperten true sagen
-     * @return
-     */
-    public int getListe21Alle()
-    {
-        return getÜbereinstimmung("Expertensystem_istmieter", false, true);
-    }
 
     /**
      * Gibt die Gesamtzahl der Felder "Rechtsexperten_istmieter" zurück
@@ -925,7 +824,6 @@ public class SolrConnect
      */
     public int getAnzahlProblemfälle()
     {
-        SolrConnect solrconnect = new SolrConnect();
         SolrQuery query = new SolrQuery();
         query.set("q", "Expertensystem_wert:"+0.5+" AND "+"Rechtsexperten_istmieter:"+true);
         query.setRows(10001);
@@ -941,209 +839,6 @@ public class SolrConnect
         long key = results.getNumFound();
         int keyInt = toIntExact(key);
         return keyInt;
-    }
-
-    /**
-     * Gibt die Trefferquote (richtig positiv geteilt durch richtig positiv plus falsch negativ) der Listen aus
-     * @return die Trefferquote oder -1 im Fehlerfall
-     */
-    public String getTrefferquoteListen()
-    {
-        int richtige = getListe11();
-        int falneg = getListe21();
-        DecimalFormat f = new DecimalFormat("0.00");
-        if(getAnzahlRechtsexpertenfelder()>0)
-        {
-            float genauigkeit = (float) richtige / (richtige + falneg);
-            return (f.format(genauigkeit*100));
-        }
-        return "-1";
-    }
-
-    /**
-     * Gibt die Trefferquote (richtig positiv geteilt durch richtig positiv plus falsch negativ) von Watson aus
-     * @return
-     */
-    public String getTrefferquoteWatson()
-    {
-        int richtige = getWatson11();
-        int falneg = getWatson21();
-        DecimalFormat f = new DecimalFormat("0.00");
-        if(getAnzahlRechtsexpertenfelder()>0)
-        {
-            float genauigkeit = (float) richtige / (richtige + falneg);
-            return (f.format(genauigkeit*100));
-        }
-        return "-1";
-    }
-
-    /**
-     * Die Methode gibt die Genauigkeit (richtig positiv geteilt durch richtig positiv plus falsch positiv) der Listen zurück
-     * @return die Genauigkeit oder -1 im Fehlerfall
-     */
-    public String getGenauigkeitListen()
-    {
-        int richtige = getListe11();
-        int falpo = getListe12();
-        DecimalFormat f = new DecimalFormat("0.00");
-        if(getAnzahlRechtsexpertenfelder()>0)
-        {
-            float genauigkeit = (float) richtige / (richtige + falpo);
-            return (f.format(genauigkeit*100));
-        }
-        return "-1";
-    }
-
-    /**
-     * Die Methode gibt die Genauigkeit (richtig positiv geteilt durch richtig positiv plus falsch positiv) von Watson zurück
-     * @return
-     */
-    public String getGenauigkeitWatson()
-    {
-        int richtige = getWatson11();
-        int falpo = getWatson12();
-        DecimalFormat f = new DecimalFormat("0.00");
-        if(getAnzahlRechtsexpertenfelder()>0)
-        {
-            float genauigkeit = (float) richtige / (richtige + falpo);
-            return (f.format(genauigkeit*100));
-        }
-        return "-1";
-    }
-
-    /**
-     *
-     * @return
-     */
-    public String getKorrektklassifikationsrateListen()
-    {
-        int richtige = getListe11()+getListe22();
-        int alle = getAnzahlRechtsexpertenfelder()-getAnzahlProblemfälle();
-        DecimalFormat f = new DecimalFormat("0.00");
-        if(getAnzahlRechtsexpertenfelder()>0)
-        {
-            float genauigkeit = (float) richtige / alle;
-            return (f.format(genauigkeit*100));
-        }
-        return "-1";
-    }
-
-    /**
-     *
-     * @return
-     */
-    public String getKorrektklassifikationsrateWatson() {
-        int richtige = getWatson11()+getWatson22();
-        int alle = getAnzahlRechtsexpertenfelder();
-        DecimalFormat f = new DecimalFormat("0.00");
-        if (getAnzahlRechtsexpertenfelder() > 0) {
-            float genauigkeit = (float) richtige / alle;
-            return (f.format(genauigkeit * 100));
-        }
-        return "-1";
-    }
-
-    /**
-     *
-     * @return
-     */
-    public String getFalschklassifikationsrateListen()
-    {
-        int richtige = getListe12()+getListe21();
-        int alle = getAnzahlRechtsexpertenfelder()-getAnzahlProblemfälle();
-        DecimalFormat f = new DecimalFormat("0.00");
-        if(getAnzahlRechtsexpertenfelder()>0)
-        {
-            float genauigkeit = (float) richtige / alle;
-            return (f.format(genauigkeit*100));
-        }
-        return "-1";
-    }
-
-    /**
-     *
-     * @return
-     */
-    public String getFalschklassifikationsrateWatson()
-    {
-        int richtige = getWatson12()+getWatson21();
-        int alle = getAnzahlRechtsexpertenfelder();
-        DecimalFormat f = new DecimalFormat("0.00");
-        if(getAnzahlRechtsexpertenfelder()>0)
-        {
-            float genauigkeit = (float) richtige / alle;
-            return (f.format(genauigkeit*100));
-        }
-        return "-1";
-    }
-
-    /**
-     *
-     * @return
-     */
-    public String getAlleFalschklassifikationsrateListen()
-    {
-        int richtige = getListe12()+getListe21Alle();
-        int alle = getAnzahlRechtsexpertenfelder();
-        DecimalFormat f = new DecimalFormat("0.00");
-        if(getAnzahlRechtsexpertenfelder()>0)
-        {
-            float genauigkeit = (float) richtige / alle;
-            return (f.format(genauigkeit*100));
-        }
-        return "-1";
-    }
-
-    /**
-     *
-     * @return
-     */
-    public String getAlleKorrektklassifikationsrateListen()
-    {
-        int richtige = getListe11()+getListe22();
-        int alle = getAnzahlRechtsexpertenfelder();
-        DecimalFormat f = new DecimalFormat("0.00");
-        if(getAnzahlRechtsexpertenfelder()>0)
-        {
-            float genauigkeit = (float) richtige / alle;
-            return (f.format(genauigkeit*100));
-        }
-        return "-1";
-    }
-
-    /**
-     * Die Methode gibt die Genauigkeit (richtig positiv geteilt durch richtig positiv plus falsch positiv) der Listen
-     * ohne Aussortieren der Problemfälle zurück
-     * @return die Genauigkeit oder -1 im Fehlerfall
-     */
-    public String getAlleGenauigkeitListen()
-    {
-        int richtige = getListe11();
-        int falpo = getListe12();
-        DecimalFormat f = new DecimalFormat("0.00");
-        if(getAnzahlRechtsexpertenfelder()>0)
-        {
-            float genauigkeit = (float) richtige / (richtige + falpo);
-            return (f.format(genauigkeit*100));
-        }
-        return "-1";
-    }
-
-    /**
-     * Gibt die Trefferquote (richtig positiv geteilt durch richtig positiv plus falsch negativ) der Listen aus
-     * @return die Trefferquote oder -1 im Fehlerfall
-     */
-    public String getAlleTrefferquoteListen()
-    {
-        int richtige = getListe11();
-        int falneg = getListe21Alle();
-        DecimalFormat f = new DecimalFormat("0.00");
-        if(getAnzahlRechtsexpertenfelder()>0)
-        {
-            float genauigkeit = (float) richtige / (richtige + falneg);
-            return (f.format(genauigkeit*100));
-        }
-        return "-1";
     }
 
     /**
