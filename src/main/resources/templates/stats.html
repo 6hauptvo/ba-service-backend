@@ -31,7 +31,6 @@ function drawChart() {
           hAxis: {title: 'Text Length', minValue: 0, maxValue: 30},
           vAxis: {title: 'Price', minValue: 0, maxValue: 180},
           trendlines: { 0: {} }
-
         };
 
         var chart2 = new google.visualization.ScatterChart(document.getElementById('chart2_div'));
@@ -110,16 +109,16 @@ function drawChart() {
     data3.addColumn('number', 'Watsonsystem');
 
     data3.addRows([
-    [{'Trefferquote'}, etre, aetre, wtre],
-    [{'Genauigkeit'}, egen, aegen, wgen],
-    [{'Korrektklassifikationsrate'}, ekor, aekor, wkor],
-    [{'Falschklassifikationsrate'}, efal, aefal, wfal],
+    ['Trefferquote', etre, aetre, wtre],
+    ['Genauigkeit', egen, aegen, wgen],
+    ['Korrektklassifikationsrate', ekor, aekor, wkor],
+    ['Falschklassifikationsrate', efal, aefal, wfal],
     ]);
 
     var options3 =
     {
         title: 'Vergleich der Klassifikationssysteme',
-        colors: ['#9575cd', '#33ac71', #b87333],
+        colors: ['#9575cd', '#33ac71', '#e5e4e2'],
         hAxis: {
           title: 'Statisitische Gütekriterien der Klassifikationen',
           viewWindow: {

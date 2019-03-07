@@ -1,6 +1,4 @@
-package uhh_lt.webserver;
-
-import uhh_lt.classifier.WatsonMieterClassifier;
+package uhh_lt.classifier;
 
 public class WatsonMieterClassifierTester
 {

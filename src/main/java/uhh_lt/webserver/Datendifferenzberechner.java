@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-public class DatenDifferenz {
+public class Datendifferenzberechner {
 
     public static void main(String[] args) {
 

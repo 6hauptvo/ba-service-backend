@@ -1,12 +1,10 @@
-package uhh_lt.webserver;
+package uhh_lt.classifier;
 
 import weka.classifiers.Classifier;
+import weka.classifiers.functions.LinearRegression;
 import weka.core.DenseInstance;
-import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.converters.ConverterUtils.DataSource;
-import weka.classifiers.functions.LinearRegression;
-import weka.core.pmml.jaxbbindings.Coefficient;
 
 
 public class LinearRegressionClassifier {

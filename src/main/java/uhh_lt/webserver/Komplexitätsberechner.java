@@ -1,6 +1,6 @@
 package uhh_lt.webserver;
 
-public class GetComplexity {
+public class Komplexitätsberechner {
     public static void main(String[] args) {
         System.out.println(countWord("Das hier ist ein Beispielsatz mit unterschiedlichen Wörtern, unter anderem lange Nomen wie zum Beispiel Ordnungswidrigkeit"));
     }
