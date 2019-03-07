@@ -7,7 +7,6 @@ public class SolrConnectTester {
     public static void main(String[] args)
     {
         SolrConnect connect = new SolrConnect();
-        Statistikmethoden sm = new Statistikmethoden();
         connect.getPreis("322600");
 
         /**
