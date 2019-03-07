@@ -1130,4 +1130,72 @@ public class SolrConnect
         }
         return "-1";
     }
+
+    /**
+     *
+     */
+    public boolean istProblemfallMieter(String text)
+    {
+        MieterClassifier mieterClassifier = new MieterClassifier();
+        double wert = mieterClassifier.classify(text);
+        if(wert == 0.5)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     *
+     */
+    public void istProblemfallGewerblich(String text)  //Boolean!!!
+    {
+        //GewerblichClassifier gewerblichClassifier = new GewerblichClassifier;
+        //double wert = gewerblichClassifier.classify(text);
+        //if(wert == 0.5)
+        //{
+        //    return true
+        //}
+        //return false;
+    }
+
+    /**
+     *
+     */
+    public String absendeButtonPushed(String text)
+    {
+        GetRecommendedPrice getRecommendedPrice = new GetRecommendedPrice();
+        double param1 = 0.00;
+        try
+        {
+            param1 = getRecommendedPrice.getPrice(text);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        String param2 = "";
+        if(istProblemfallMieter(text)) //&& !istProblemfallGewerblich())
+        {
+            param2 = "Möchten Sie vielleicht angeben ob sie Mieter/in oder Vermieter/in sind, falls Sie das noch " +
+                    "nicht getan haben?";
+        }
+
+        else if(!istProblemfallMieter(text)) //&& istProblemfallGewerblich())
+        {
+            param2 = "Möchten Sie vielleicht angeben ob die Nutzung gewerblich oder privat ist, falls Sie das noch " +
+                    "nicht getan haben und für relevant halten?";
+        }
+
+        else if(istProblemfallMieter(text)) //&& istProblemfallGewerblich())
+        {
+            param2 = "Möchten Sie vielleicht angeben ob sie Mieter/in oder Vermieter/in sind, falls Sie das noch " +
+                    "nicht getan haben?" +
+                    "Möchten Sie vielleicht zusätzlich angeben ob die Nutzung gewerblich oder privat ist, falls Sie das noch " +
+                    "nicht getan haben und für relevant halten?";
+        }
+
+        return param1 + param2;
+    }
 }
