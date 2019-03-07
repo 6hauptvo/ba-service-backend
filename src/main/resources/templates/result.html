@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<title>W3.CSS Template</title>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css"/>
+
+
+<style>
+textarea {
+  width: 88%;
+  height: 200px;
+  padding: 10px;
+  border: 1px solid #d9d9d9;
+  outline: none;
+  font-size: 0,5rem;
+  resize: none;
+  line-height: 1.5rem;
+}
+</style>
+
+<script>
+// Side navigation
+function w3_open() {
+  var x = document.getElementById("mySidebar");
+  x.style.width = "20%";
+  x.style.fontSize = "20px";
+  x.style.paddingTop = "10%";
+  x.style.display = "block";
+}
+function w3_close() {
+  document.getElementById("mySidebar").style.display = "none";
+}
+</script>
+
+<nav class="w3-sidebar w3-bar-block w3-card w3-animate-left w3-center" style="display:none" id="mySidebar">
+    <h1 class="w3-xxxMedium w3-text-theme">Side Navigation</h1>
+    <button class="w3-bar-item w3-button" onclick="w3_close()">Close <i class="fa fa-remove"></i></button>
+    <a href="#" class="w3-bar-item w3-button" onclick="location.href='http://localhost:8080/welcome';" method="get">Welcome page</a>
+    <a href="#" class="w3-bar-item w3-button">Link 2</a>
+</nav>
+<head>
+    <script type="text/javascript" src="jquery-3.3.1.js"> /*
+    </script>
+</head>
+
+<head>
+    <div class="w3-container w3-theme w3-padding">
+        <i onclick="w3_open()" class="fa fa-bars w3-xlarge w3-button w3-theme"></i>
+        <h2 class="w3-center">Preis Analyse</h2>
+    </div>
+</head>
+<body>
+<form >
+    <br/>
+    <div class="w3-center" >
+        <textarea id="textinput" wrap="soft">Dabei sehe ich zwei Probleme die mich derzeit von einem Kauf abhalten:
+            1. Es gibt eine Rauch-Wärme-Abzugsanlage (RWA) im Treppenhaus. Ich setze voraus, dass diese in der Baugenehmigung gefordert wurde da es auf Grund der baulichen Gegebenheiten für die Feuerwehr nicht möglich ist mit einem Fahrzeug auf das Grundstück hinter dem Haus zu gelangen. Demnach muss diese RWA auch gewartet und auf Funktion geprüft werden. Das erfolgt nicht.
+        </textarea>
+    </div>
+</form>
+
+<script type="text/javascript">
+  var calculate = function() {
+  var string = document.getElementById('textinput').value;
+
+  preis = new Preisempfehlungsberechner();
+  preis.getPrice(string);
+  document.getElementById('preis').innerHTML = preis;
+}
+</script>
+<br/>
+<div class="output row w3-center">
+    <button type="submit" class="w3-button w3-theme" onclick="calculate()">Analyse</button>
+    <div>Preis:<span id="preis">0</span>
+    </div>
+</div>
+<div class="output row" id="result">
+    <form>
+        Es könnte nicht ermittelt werden, ob Sie Mieter/Vermieter. Wäre es Hilfreich wenn Sie  vorhandene Information nachreichen.
+    </form>
+</div>
+
+<div class="w3-center">
+    <form action="http://localhost:8080/welcome" method="get">
+        <div class="w3-center">
+
+        </div>
+    </form>
+
+</div>
+
+
+</body>
+</html>

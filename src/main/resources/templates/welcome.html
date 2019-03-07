@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<title>W3.CSS Template</title>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css"/>
+
+<style>
+
+textarea {
+  width: 88%;
+  height: 200px;
+  padding: 10px;
+  border: 1px solid #d9d9d9;
+  outline: none;
+  font-size: 0,5rem;
+  resize: none;
+  line-height: 1.5rem;
+
+}</style>
+<script>
+// Side navigation
+function w3_open() {
+  var x = document.getElementById("mySidebar");
+  x.style.width = "20%";
+  x.style.fontSize = "20px";
+  x.style.paddingTop = "10%";
+  x.style.display = "block";
+}
+function w3_close() {
+  document.getElementById("mySidebar").style.display = "none";
+}
+
+</script>
+<nav class="w3-sidebar w3-bar-block w3-card w3-animate-left w3-center" style="display:none" id="mySidebar">
+    <h1 class="w3-xxxMedium w3-text-theme">Side Navigation</h1>
+    <button class="w3-bar-item w3-button" onclick="w3_close()">Close <i class="fa fa-remove"></i></button>
+    <a href="#" class="w3-bar-item w3-button">Link 1</a>
+    <a href="#" class="w3-bar-item w3-button">Link 2</a>
+    <a href="#" class="w3-bar-item w3-button">Link 3</a>
+    <a href="#" class="w3-bar-item w3-button">Link 4</a>
+</nav>
+
+<head>
+    <div class="w3-container w3-theme w3-padding">
+        <i onclick="w3_open()" class="fa fa-bars w3-xlarge w3-button w3-theme"></i>
+        <h2 class="w3-center">Title</h2>
+    </div>
+</head>
+
+
+<body >
+<script type="text/javascript">
+function myFunction() {
+  var x = document.getElementById("textinput").value;
+  document.getElementById("textoutput").innerHTML = x;
+}
+document.getElementById("mybutton").onclick = function() {
+document.myform2.mytextfield2.value = "Test";
+}
+</script>
+
+<script type="text/javascript">
+document.getElementById("mybutton").onclick = function() {
+document.myform.mytextfield3.value = "Test";
+}
+</script>
+<form action="http://localhost:8080/result" method="get">
+
+    <div class="container w3-center">
+
+    </div>
+</form>
+
+<div class="w3-center">
+    <form action="http://localhost:8080/result" method="get">
+        <div class="w3-center">
+            <button type="submit" class="w3-button w3-theme" onclick="myFunction()">Absenden</button></div>
+    </form>
+</div>
+
+</body>
+</html>
