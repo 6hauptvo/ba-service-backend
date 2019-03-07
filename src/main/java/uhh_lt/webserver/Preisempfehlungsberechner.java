@@ -29,19 +29,19 @@ public class Preisempfehlungsberechner {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        writer.write("Anzahl der Wörter, komplexe Nomen, Preis");
+        writer.write("Anzahl der Wörter, komplexe Nomen, Symbole, Preis");
         writer.write("\n");
         for (String id:ids) {
             String frage = connect.getFrage(id);
             int wortAnzahl = Komplexitätsberechner.countWord(frage);
-
+            int symbols = Komplexitätsberechner.complexSymbolCount(frage);
             int nounCount = Komplexitätsberechner.complexNounCount(frage);
             String price = connect.getPreis(id);
 
 
             sb = new StringBuilder();
 
-            sb.append(wortAnzahl + ", " + nounCount + ", " + price);
+            sb.append(wortAnzahl + ", " + nounCount + ", "  + symbols + ", " + price);
 
             writer.write(sb.toString());
             writer.write("\n");
@@ -55,7 +55,8 @@ public class Preisempfehlungsberechner {
         Classifier lrLoaded = (Classifier) weka.core.SerializationHelper.read(getClass().getClassLoader().getResourceAsStream("price.model"));
         int wortAnzahl = Komplexitätsberechner.countWord(frage);
         int nounCount = Komplexitätsberechner.complexNounCount(frage);
-        double[] testCase = new double[]{wortAnzahl, nounCount};
+        int symbolCount = Komplexitätsberechner.complexSymbolCount(frage);
+        double[] testCase = new double[]{wortAnzahl, nounCount, symbolCount};
 
         DenseInstance inst = new DenseInstance(1.0, testCase);
         double prediction = lrLoaded.classifyInstance(inst);
