@@ -7,7 +7,6 @@ import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
-import uhh_lt.datenbank.SolrConnect;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -17,7 +16,6 @@ import java.util.ArrayList;
 
 public class PriceLengthClassifier {
     private static SolrClient client = new HttpSolrClient.Builder("http://ltdemos:8983/solr/fea-schema-less-2").build();
-    private SolrConnect connect = new SolrConnect();
 
     public static void main(String[] args) throws IOException {
         FileWriter fw = new FileWriter("resources/averages_length.txt");
