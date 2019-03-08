@@ -229,6 +229,7 @@ public class ApplicationController  extends SpringBootServletInitializer {
     {
         SolrConnect sc = new SolrConnect();
         Statistikmethoden sm = new Statistikmethoden();
+        try {
         model.addAttribute("message", sm.dauerPreisComparer());
         model.addAttribute("message1", sm.fragelängePreisComparer());
         model.addAttribute("w11", sm.getWatson11());
@@ -251,7 +252,11 @@ public class ApplicationController  extends SpringBootServletInitializer {
         model.addAttribute("aekor", sm.getAlleKorrektklassifikationsrateListen());
         model.addAttribute("aefal", sm.getAlleFalschklassifikationsrateListen());
         model.addAttribute("aetre", sm.getAlleTrefferquoteListen());
-        model.addAttribute("aegen", sm.getAlleGenauigkeitListen());
+        model.addAttribute("aegen", sm.getAlleGenauigkeitListen()); }
+
+        catch (Exception e) {
+            e.printStackTrace();
+        }
         return "stats"; //view
     }
 
@@ -282,12 +287,17 @@ public class ApplicationController  extends SpringBootServletInitializer {
         SolrConnect sc = new SolrConnect();
         String frg = "";
         Preisempfehlungsberechner pb = new Preisempfehlungsberechner();
-        WatsonMieterClassifier mc = new WatsonMieterClassifier();
+        MieterClassifier mc = new MieterClassifier();
 
         text = text.replace("\r", " ").replace("\n", " ").trim();
         try {
+            model.addAttribute("input", text);
+            model.addAttribute("mieter", mc.istHauptklasse(text));
+        }   catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
             model.addAttribute("preis", pb.getPrice(text));
-            model.addAttribute("mieter",mc.istHauptklasse(text));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -300,7 +310,6 @@ public class ApplicationController  extends SpringBootServletInitializer {
         return "welcome";
 
     }
-
     @RequestMapping("/test")
     public String main(Model model)
     {

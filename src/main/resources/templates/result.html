@@ -39,7 +39,7 @@ function w3_close() {
     <h1 class="w3-xxxMedium w3-text-theme">Side Navigation</h1>
     <button class="w3-bar-item w3-button" onclick="w3_close()">Close <i class="fa fa-remove"></i></button>
     <a href="#" class="w3-bar-item w3-button" onclick="location.href='http://localhost:8080/welcome';" method="get">Welcome page</a>
-    <a href="#" class="w3-bar-item w3-button">Link 2</a>
+    <a href="#" class="w3-bar-item w3-button">Resultat</a>
 </nav>
 
 <head>
@@ -53,18 +53,20 @@ function w3_close() {
     <div class="w3-center" >
         <form action="http://localhost:8080/result" method="get">
             <textarea id="textinput" name="text"></textarea>
-            <button id="do" class="w3-button w3-theme" type="submit" value="Analyse" >Analyse</button>
+            <button id="do" class="w3-button w3-theme" value="Analyse" onclick="myFunction()" >Analyse</button>
         </form>
     </div>
-    <form>
+    <br/>
+    <div class="w3-center">
+    <span th:text="${input}" id="input">0</span>
+    </div>
+    <br/>
         <div>
-                Preis:<span th:text="${preis}" id="preis">0</span>
             <br/>
-            WK:<span th:text="${mieter}" id="mieter">0</span>
+            Preis:<span th:text="${preis}" id="preis">0</span>
+            <br/>
+            Mieter(?):<span th:text="${mieter}" id="mieter">0</span>
         </div>
-    </form>
-
-
 <div class="w3-center">
     <form action="http://localhost:8080/welcome" method="get">
         <div class="w3-center">
