@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import uhh_lt.classifier.ClassifierInterface;
+import uhh_lt.classifier.GewerblichClassifier;
 import uhh_lt.classifier.MieterClassifier;
 import uhh_lt.classifier.WatsonMieterClassifier;
 import uhh_lt.datenbank.SolrConnect;
@@ -285,20 +286,17 @@ public class ApplicationController  extends SpringBootServletInitializer {
     public String result (@RequestParam(value = "text", defaultValue = "") String text,         @RequestParam(value = "format", defaultValue = "text") String format, Model model)
     {
         SolrConnect sc = new SolrConnect();
-        String frg = "";
         Preisempfehlungsberechner pb = new Preisempfehlungsberechner();
         MieterClassifier mc = new MieterClassifier();
-
+        GewerblichClassifier gc = new GewerblichClassifier();
         text = text.replace("\r", " ").replace("\n", " ").trim();
         try {
             model.addAttribute("input", text);
             model.addAttribute("mieter", mc.istHauptklasse(text));
-        }   catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
             model.addAttribute("preis", pb.getPrice(text));
-        } catch (Exception e) {
+            model.addAttribute("gewerblich", gc.istHauptklasse(text));
+
+        }   catch (Exception e) {
             e.printStackTrace();
         }
         return "result";

@@ -52,20 +52,17 @@ function w3_close() {
     <br/>
     <div class="w3-center" >
         <form action="http://localhost:8080/result" method="get">
-            <textarea id="textinput" name="text"></textarea>
-            <button id="do" class="w3-button w3-theme" value="Analyse" onclick="myFunction()" >Analyse</button>
+            <textarea id="textinput" name="text" th:text="${input}"></textarea>
+            <button id="do" class="w3-button w3-theme" value="Analyse"  >Analyse</button>
         </form>
     </div>
-    <br/>
-    <div class="w3-center">
-    <span th:text="${input}" id="input">0</span>
-    </div>
-    <br/>
         <div>
             <br/>
             Preis:<span th:text="${preis}" id="preis">0</span>
             <br/>
             Mieter(?):<span th:text="${mieter}" id="mieter">0</span>
+            <br/>
+            Gewerblich(?):<span th:text="${gewerblich}" id="gewerbe">0</span>
         </div>
 <div class="w3-center">
     <form action="http://localhost:8080/welcome" method="get">
