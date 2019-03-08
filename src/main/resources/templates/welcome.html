@@ -37,8 +37,8 @@ function w3_close() {
 <nav class="w3-sidebar w3-bar-block w3-card w3-animate-left w3-center" style="display:none" id="mySidebar">
     <h1 class="w3-xxxMedium w3-text-theme">Side Navigation</h1>
     <button class="w3-bar-item w3-button" onclick="w3_close()">Close <i class="fa fa-remove"></i></button>
-    <a href="#" class="w3-bar-item w3-button" onclick="location.href='http://localhost:8080/result';">Textanalyse</a>
-    <a href="#" class="w3-bar-item w3-button" method="get" onclick="location.href='http://localhost:8080/stats';" >Resultat</a>
+    <a href="#" class="w3-bar-item w3-button" onclick="location.href='./result';">Textanalyse</a>
+    <a href="#" class="w3-bar-item w3-button" method="get" onclick="location.href='./stats';" >Result</a>
 </nav>
 
 <head>
@@ -65,13 +65,9 @@ document.getElementById("mybutton").onclick = function() {
 document.myform.mytextfield3.value = "Test";
 }
 </script>
-<form action="http://localhost:8080/result" method="get">
-    <div class="container w3-center">
-    </div>
-</form>
 
 <div class="w3-center">
-    <form action="http://localhost:8080/result" method="get">
+    <form action="./result" method="get">
         <div class="w3-center">
             <button type="submit" class="w3-button w3-theme" onclick="myFunction()">Absenden</button></div>
     </form>

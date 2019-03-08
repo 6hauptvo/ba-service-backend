@@ -38,8 +38,7 @@ function w3_close() {
 <nav class="w3-sidebar w3-bar-block w3-card w3-animate-left w3-center" style="display:none" id="mySidebar">
     <h1 class="w3-xxxMedium w3-text-theme">Side Navigation</h1>
     <button class="w3-bar-item w3-button" onclick="w3_close()">Close <i class="fa fa-remove"></i></button>
-    <a href="#" class="w3-bar-item w3-button" onclick="location.href='http://localhost:8080/welcome';" method="get">Welcome page</a>
-    <a href="#" class="w3-bar-item w3-button">Resultat</a>
+    <a href="#" class="w3-bar-item w3-button" onclick="location.href='./stats';" >Result</a>
 </nav>
 
 <head>
@@ -51,27 +50,21 @@ function w3_close() {
 <body>
     <br/>
     <div class="w3-center" >
-        <form action="http://localhost:8080/result" method="get">
+        <form action="./result" method="get">
             <textarea id="textinput" name="text" th:text="${input}"></textarea>
             <button id="do" class="w3-button w3-theme" value="Analyse"  >Analyse</button>
         </form>
     </div>
         <div>
             <br/>
-            Preis:<span th:text="${preis}" id="preis">0</span>
+            Preisvorschlag:<span th:text="${preis}" id="preis">0</span>
             <br/>
-            Mieter(?):<span th:text="${mieter}" id="mieter">0</span>
+            Mieter(True) oder Vermieter(false):<span th:text="${mieter}" id="mieter">0</span>
             <br/>
-            Gewerblich(?):<span th:text="${gewerblich}" id="gewerbe">0</span>
+            Gewerblich(true) oder privat(false):<span th:text="${gewerblich}" id="gewerbe">0</span>
+            <br/>
+            Hinweis: Wenn Sie sensible Daten wie vollständige Namen oder Adressen in Ihrem Text haben, sollten Sie entweder Vertraulichkeit beantragen oder den Text ändern.
         </div>
-<div class="w3-center">
-    <form action="http://localhost:8080/welcome" method="get">
-        <div class="w3-center">
-        </div>
-    </form>
-</div>
-
-
 
 </body>
 </html>
