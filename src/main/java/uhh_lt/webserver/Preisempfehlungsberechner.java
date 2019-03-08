@@ -61,8 +61,8 @@ public class Preisempfehlungsberechner {
         DenseInstance inst = new DenseInstance(1.0, testCase);
         double prediction = lrLoaded.classifyInstance(inst);
 
-        System.out.println(prediction);
-        return prediction;
+        System.out.println(Math.round(prediction));
+        return Math.round(prediction);
     }
 
     public void trainModel() throws Exception {
