@@ -12,12 +12,11 @@ import uhh_lt.datenbank.SolrConnect;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-
 //import org.json.*;
 
-public class PriceTimeClassifier {
-    static SolrClient client = new HttpSolrClient.Builder("http://ltdemos:8983/solr/fea-schema-less-2").build();
-    SolrConnect connect = new SolrConnect();
+public class PriceTimeClassifier
+{
+    private static SolrClient client = new HttpSolrClient.Builder("http://ltdemos:8983/solr/fea-schema-less-2").build();
 
     public static void main(String[] args) throws IOException {
         FileWriter fw = new FileWriter("resources/averages_time.txt");

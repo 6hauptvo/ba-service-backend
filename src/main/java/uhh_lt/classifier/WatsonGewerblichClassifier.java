@@ -6,13 +6,13 @@ import com.ibm.watson.developer_cloud.natural_language_classifier.v1.model.Class
 import com.ibm.watson.developer_cloud.natural_language_classifier.v1.model.ClassifyOptions;
 import com.ibm.watson.developer_cloud.service.security.IamOptions;
 
-public class WatsonGewerblichClassifier implements ClassifierInterface {
-
+public class WatsonGewerblichClassifier implements ClassifierInterface
+{
     private NaturalLanguageClassifier naturalLanguageClassifier;
     private Classification classification;
 
-
-    public WatsonGewerblichClassifier() {
+    public WatsonGewerblichClassifier()
+    {
         IamOptions options = new IamOptions.Builder()
                 .apiKey("nqeYBC1Rp7M7CpUpAwmr-cFBiQVHndCzNMz07-Yw3lKF")
                 .build();
@@ -23,11 +23,11 @@ public class WatsonGewerblichClassifier implements ClassifierInterface {
     @Override
     public Double classify(String neueFrage) {
 
-        neueFrage = neueFrage.substring(0, Math.min(neueFrage.length(), 1000));
+        String frage = neueFrage.substring(0, Math.min(neueFrage.length(), 1000));
 
         ClassifyOptions classifyOptions = new ClassifyOptions.Builder()
                 .classifierId("1e0b80x506-nlc-145")
-                .text(neueFrage)
+                .text(frage)
                 .build();
         classification = naturalLanguageClassifier.classify(classifyOptions).execute();
         System.out.println(classification);
@@ -36,28 +36,18 @@ public class WatsonGewerblichClassifier implements ClassifierInterface {
                 return mClass.getConfidence();
             }
         }
-
         return 0.0;
     }
-
 
     @Override
     public boolean istHauptklasse()
     {
-        if(classification.getTopClass().compareTo("Mieter") == 0)
-        {
-            return true;
-        }
-        return false;
+        return classification.getTopClass().compareTo("Mieter") == 0;
     }
 
     @Override
-    public Object istHauptklasse(String text) {
-        if(classification.getTopClass().compareTo("Mieter") == 0)
-        {
-            return true;
-        }
-        return false;
+    public Object istHauptklasse(String text)
+    {
+        return classification.getTopClass().compareTo("Mieter") == 0;
     }
-
 }

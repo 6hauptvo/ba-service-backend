@@ -34,7 +34,13 @@ public class SolrConnect
          jsonImport = new JsonImport();
     }
 
-    public void store(JSONObject object, boolean commit) {
+    /**
+     * Liest Daten in die Solr Datenbank ein
+     * @param object Ein JSON Object
+     * @param commit Wenn true wird committed
+     */
+    public void store(JSONObject object, boolean commit)
+    {
         MieterClassifier mc = new MieterClassifier();
         WatsonMieterClassifier wmc = new WatsonMieterClassifier();
         SolrInputDocument inputDocument = new SolrInputDocument();
@@ -60,28 +66,30 @@ public class SolrConnect
                 client.commit();
             }
         }
-        catch (SolrServerException e)
-        {
-            e.printStackTrace();
-        }
-        catch (IOException e)
+        catch (SolrServerException | IOException e)
         {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Committed Daten in die Solr Datenbank
+     */
     public void commit() {
         try {
             client.commit();
-        } catch (SolrServerException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (SolrServerException | IOException e) {
             e.printStackTrace();
         }
     }
 
-    public String search(String searchTerm) {
-
+    /**
+     * Führt eine Datenbankanfrage durch
+     * @param searchTerm Ein Suchbegriff
+     * @return die Datenbankeinträge zu einem gegebenen Suchbegriff werden ausgegeben
+     */
+    public String search(String searchTerm)
+    {
         SolrQuery query = new SolrQuery();
         query.setQuery(searchTerm);
         query.setFields("id");
@@ -89,38 +97,44 @@ public class SolrConnect
         QueryResponse response = null;
         try {
             response = client.query(query);
-        } catch (SolrServerException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (SolrServerException | IOException e) {
             e.printStackTrace();
         }
         StringBuilder out = new StringBuilder();
+        assert response != null;
         SolrDocumentList results = response.getResults();
-        for (int i = 0; i < results.size(); ++i) {
-            out.append(results.get(i)).append("\n");
+        for (SolrDocument result : results) {
+            out.append(result).append("\n");
         }
         return out.toString();
     }
 
-    public boolean isFullyAnnotatedMieter(String id){
+    /**
+     * Gibt an ob schon zwei Datenbankeinträge zum Mieter bestehen
+     * @param id die ID eines Datenbankeintags
+     * @return true, wenn bereits zwei Felder bestehen und somit vollständig annotiert ist
+     */
+    public boolean isFullyAnnotatedMieter(String id)
+    {
         SolrQuery query = new SolrQuery();
         query.setQuery("id:" + id + "AND Rechtsexperten_istmieter2:*");
         QueryResponse response = null;
 
         try {
             response = client.query(query);
-        } catch (SolrServerException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (SolrServerException | IOException e) {
             e.printStackTrace();
         }
 
-        if (response.getResults().size()>0) {
-            return false;
-        }
-        return true;
+        assert response != null;
+        return response.getResults().size() <= 0;
     }
 
+    /**
+     * Gibt an ob schon zwei Datenbankeinträge zu Gewerblich bestehen
+     * @param id die ID eines Datenbankeintags
+     * @return true, wenn bereits zwei Felder bestehen und somit vollständig annotiert ist
+     */
     public boolean isFullyAnnotatedGewerblich(String id){
         SolrQuery query = new SolrQuery();
         query.setQuery("id:" + id + "AND Rechtsexperten_istgewerblich2:*");
@@ -128,18 +142,19 @@ public class SolrConnect
 
         try {
             response = client.query(query);
-        } catch (SolrServerException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (SolrServerException | IOException e) {
             e.printStackTrace();
         }
 
-        if (response.getResults().size()>0) {
-            return false;
-        }
-        return true;
+        assert response != null;
+        return response.getResults().size() <= 0;
     }
 
+    /**
+     * Holt die Kundenfrage zu einer gegebenen ID aus der Datenbank
+     * @param id Die ID eines Datenbankeintags
+     * @return die Kundenanfrage zu der gegebenen ID
+     */
     public String getFrage(String id) {
     SolrQuery query = new SolrQuery();
     query.setQuery("id:" + id).setFields("t_message").setStart(0).setRows(10000);
@@ -147,12 +162,11 @@ public class SolrConnect
 
         try {
             response = client.query(query);
-        } catch (SolrServerException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (SolrServerException | IOException e) {
             e.printStackTrace();
         }
 
+        assert response != null;
         SolrDocumentList results = response.getResults();
         return valueOf(results.get(0).get("t_message"));
     }
@@ -165,15 +179,14 @@ public class SolrConnect
 
         try {
             response = client.query(query);
-        } catch (SolrServerException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (SolrServerException | IOException e) {
             e.printStackTrace();
         }
 
+        assert response != null;
         SolrDocumentList results = response.getResults();
-        Object doc = "";
-        ArrayList<Object> array1 = new ArrayList<Object>();
+        Object doc;
+        ArrayList<Object> array1 = new ArrayList<>();
         for (SolrDocument document : results) {
             doc = ((List)document.getFieldValue("price")).get(0);
             array1.add(doc);
@@ -182,6 +195,9 @@ public class SolrConnect
 
     }
 
+    /**
+     * Erstellt ein Textfile mit allen IDs
+     */
     public void printIdInDoc() throws IOException
     {
         SolrQuery query = new SolrQuery();
@@ -190,17 +206,16 @@ public class SolrConnect
 
         try {
             response = client.query(query);
-        } catch (SolrServerException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (SolrServerException | IOException e) {
             e.printStackTrace();
         }
 
+        assert response != null;
         SolrDocumentList results = response.getResults();
         FileWriter fw = new FileWriter("resources/outputID.txt");
-        for (int i = 0; i < results.size(); ++i) {
-            System.out.println(results.get(i));
-            fw.write(valueOf(results.get(i).get("id")));
+        for (SolrDocument result : results) {
+            System.out.println(result);
+            fw.write(valueOf(result.get("id")));
             fw.write("\n");
         }
         fw.close();
@@ -209,8 +224,8 @@ public class SolrConnect
     /**
      * Wenn der Mieter- oder Vermieterbutton gedrückt wurde, wird entweder ein neues Feld "Rechtsexperten_istmieter" oder
      * "Rechtsexperten_istmieter2" angelegt und mit dem entsprechenden Wert gefüllt oder es wird nichts getan
-     * @param docID  Die ID, den Primärschlüssel, als String
-     * @param istMieter  Wenn es sich um einen Mieter handelt true, sonst false
+     * @param docID  die ID, den Primärschlüssel, als String
+     * @param istMieter  wenn es sich um einen Mieter handelt true, sonst false
      */
     public void mieterButtonsPushed(String docID, Object istMieter)
     {
@@ -226,6 +241,7 @@ public class SolrConnect
             e.printStackTrace();
         }
 
+        assert response != null;
         SolrDocumentList docList = response.getResults();
         assertEquals(docList.getNumFound(), 1);
 
@@ -237,12 +253,9 @@ public class SolrConnect
         SolrDocument oldDoc = response.getResults().get(0);
 
         Collection<String> feldnamensliste = oldDoc.getFieldNames();
-        ArrayList<String> list = new ArrayList<String>();
+        ArrayList<String> list = new ArrayList<>();
 
-        for (String str:feldnamensliste)
-        {
-            list.add(str);
-        }
+        list.addAll(feldnamensliste);
 
         String feld = "Rechtsexperten_istmieter";
         String feld2 = "Rechtsexperten_istmieter2";
@@ -260,7 +273,7 @@ public class SolrConnect
 
     /**
      * Fügt in Solr das neue Feld "Problemfall" hinzu und setzt dieses auf den eingegebenen Wert
-     * @param docID Die DokumentenID, der Primärschlüssel
+     * @param docID die DokumentenID, der Primärschlüssel
      */
     public void mieterProblemfallButtonPushed(String docID)
     {
@@ -269,12 +282,11 @@ public class SolrConnect
         QueryResponse response = null;
         try {
             response = client.query(query);
-        } catch (SolrServerException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (SolrServerException | IOException e) {
             e.printStackTrace();
         }
 
+        assert response != null;
         SolrDocumentList docList = response.getResults();
         assertEquals(docList.getNumFound(), 1);
         for (SolrDocument doc : docList)
@@ -284,11 +296,8 @@ public class SolrConnect
 
         SolrDocument oldDoc = response.getResults().get(0);
         Collection<String> feldnamensliste = oldDoc.getFieldNames();
-        ArrayList<String> list = new ArrayList<String>();
-        for (String str:feldnamensliste)
-        {
-            list.add(str);
-        }
+        ArrayList<String> list = new ArrayList<>();
+        list.addAll(feldnamensliste);
 
         String feld = "Problemfall";
         if(!list.contains(feld))
@@ -297,6 +306,12 @@ public class SolrConnect
         }
     }
 
+    /**
+     * Wenn der Gewerblichbutton gedrückt wurde, wird entweder ein neues Feld "Rechtsexperten_istgewerblich" oder
+     * "Rechtsexperten_istgewerblich2" angelegt und mit dem entsprechenden Wert gefüllt oder es wird nichts getan
+     * @param docID die ID eines Datenbankeintrags
+     * @param istGewerblich falls gewerblich true, falls privat false
+     */
     public void gewerblichButtonsPushed(String docID, boolean istGewerblich)
     {
         SolrQuery query = new SolrQuery();
@@ -304,12 +319,11 @@ public class SolrConnect
         QueryResponse response = null;
         try {
             response = client.query(query);
-        } catch (SolrServerException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (SolrServerException | IOException e) {
             e.printStackTrace();
         }
 
+        assert response != null;
         SolrDocumentList docList = response.getResults();
         assertEquals(docList.getNumFound(), 1);
         for (SolrDocument doc : docList)
@@ -319,11 +333,8 @@ public class SolrConnect
 
         SolrDocument oldDoc = response.getResults().get(0);
         Collection<String> feldnamensliste = oldDoc.getFieldNames();
-        ArrayList<String> list = new ArrayList<String>();
-        for (String str:feldnamensliste)
-        {
-            list.add(str);
-        }
+        ArrayList<String> list = new ArrayList<>();
+        list.addAll(feldnamensliste);
 
         String feld = "Rechtsexperten_istgewerblich";
         String feld2 = "Rechtsexperten_istgewerblich2";
@@ -339,6 +350,10 @@ public class SolrConnect
         }
     }
 
+    /**
+     * Fügt in die Solr Datenbank ein neues Feld Problemfall_Gewerblich hinzu und setzt dieses auf true
+     * @param docID die ID, den Primärschlüssel, als String
+     */
     public void gewerblichProblemfallButtonPushed(String docID)
     {
         SolrQuery query = new SolrQuery();
@@ -346,12 +361,11 @@ public class SolrConnect
         QueryResponse response = null;
         try {
             response = client.query(query);
-        } catch (SolrServerException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (SolrServerException | IOException e) {
             e.printStackTrace();
         }
 
+        assert response != null;
         SolrDocumentList docList = response.getResults();
         assertEquals(docList.getNumFound(), 1);
         for (SolrDocument doc : docList)
@@ -361,11 +375,8 @@ public class SolrConnect
 
         SolrDocument oldDoc = response.getResults().get(0);
         Collection<String> feldnamensliste = oldDoc.getFieldNames();
-        ArrayList<String> list = new ArrayList<String>();
-        for (String str:feldnamensliste)
-        {
-            list.add(str);
-        }
+        ArrayList<String> list = new ArrayList<>();
+        list.addAll(feldnamensliste);
 
         String feld = "Problemfall_Gewerblich";
         if(!list.contains(feld))
@@ -375,54 +386,63 @@ public class SolrConnect
     }
 
     /**
-     * Der SolrUpdater fügt der Datenbank eine neues Feld hinzu und füllt dieses mit den eingegebenen Daten
-     * @param  docID Die ID, den Primärschlüssel, als String
-     * @param  istMieter Wenn es sich um einen Mieter handelt true, sonst false
+     * Der SolrUpdater fügt der Datenbank eine neues Feld Rechtsexperten_istmieter hinzu
+     * @param  docID die ID, den Primärschlüssel, als String
+     * @param  istMieter wenn es sich um einen Mieter handelt true, sonst false
      */
-    public void addRechtsexpertenfeldMieter(String docID, Object istMieter)
+    void addRechtsexpertenfeldMieter(String docID, Object istMieter)
     {
         addField(docID, "Rechtsexperten_istmieter", istMieter);
     }
 
     /**
-     * Der SolrUpdater fügt der Datenbank eine neues Feld hinzu und füllt dieses mit den eingegebenen Daten
-     * @param  docID Die ID, den Primärschlüssel, als String
-     * @param  istMieter Wenn es sich um einen Mieter handelt true, sonst false
+     * Der SolrUpdater fügt der Datenbank eine neues Feld Rechtsexperten_istmieter2 hinzu
+     * @param  docID die ID, den Primärschlüssel, als String
+     * @param  istMieter wenn es sich um einen Mieter handelt true, sonst false
      */
-    public void addRechtsexpertenfeldMieter2(String docID, Object istMieter)
+    void addRechtsexpertenfeldMieter2(String docID, Object istMieter)
     {
         addField(docID, "Rechtsexperten_istmieter2", istMieter);
     }
 
-    public void addRechtsexpertenfeldGewerblich(String docID, boolean istGewerblich)
+    /**
+     * Der SolrUpdater fügt der Datenbank eine neues Feld Rechtsexperten_istgewerblich hinzu
+     * @param docID die ID, den Primärschlüssel, als String
+     * @param istGewerblich true falls gewerblich, false falls privat
+     */
+    void addRechtsexpertenfeldGewerblich(String docID, boolean istGewerblich)
     {
         addField(docID, "Rechtsexperten_istgewerblich", istGewerblich);
     }
 
-    public void addRechtsexpertenfeldGewerblich2(String docID, boolean istGewerblich)
+    /**
+     * Der SolrUpdater fügt der Datenbank eine neues Feld Rechtsexperten_istgewerblich2 hinzu
+     * @param docID die ID, den Primärschlüssel, als String
+     * @param istGewerblich true falls gewerblich, false falls privat
+     */
+    void addRechtsexpertenfeldGewerblich2(String docID, boolean istGewerblich)
     {
         addField(docID, "Rechtsexperten_istgewerblich2", istGewerblich);
     }
 
     /**
-     *Es wird ein neues Feld in Solr erzeugt und mit einem eingegebenen Wert gefüllt
-     * @param docID Die DokumentenID, der Primärschlüssel
-     * @param fieldName Der Name des Feldes als String
-     * @param object Der Wert, der dem Feld hinzugefügt werden soll
+     * Es wird ein neues Feld in Solr erzeugt und mit einem eingegebenen Wert gefüllt
+     * @param docID die DokumentenID, der Primärschlüssel
+     * @param fieldName der Name des Feldes als String
+     * @param object der Wert, der dem Feld hinzugefügt werden soll
      */
-    public void addField(String docID, String fieldName, Object object)
+    void addField(String docID, String fieldName, Object object)
     {
         SolrQuery query = new SolrQuery();
         query.set("q", "id:"+ docID);
         QueryResponse response = null;
         try {
             response = client.query(query);
-        } catch (SolrServerException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (SolrServerException | IOException e) {
             e.printStackTrace();
         }
 
+        assert response != null;
         SolrDocumentList docList = response.getResults();
         assertEquals(docList.getNumFound(), 1);
         for (SolrDocument doc : docList)
@@ -433,31 +453,23 @@ public class SolrConnect
         SolrDocument oldDoc = response.getResults().get(0);
         SolrInputDocument inputDocument = new SolrInputDocument();
         Collection<String> feldnamensliste = oldDoc.getFieldNames();
-        ArrayList<String> list = new ArrayList<String>();
-        for (String str:feldnamensliste)
-        {
-            list.add(str);
-        }
+        ArrayList<String> list = new ArrayList<>();
+        list.addAll(feldnamensliste);
 
-        for (int i=0; i<list.size();i++)
-        {
-            inputDocument.addField(list.get(i), oldDoc.getFieldValue(list.get(i)));
+        for (String s : list) {
+            inputDocument.addField(s, oldDoc.getFieldValue(s));
         }
 
         inputDocument.addField(fieldName, object);
         try {
             client.add(inputDocument);
-        } catch (SolrServerException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (SolrServerException | IOException e) {
             e.printStackTrace();
         }
 
         try {
             client.commit();
-        } catch (SolrServerException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (SolrServerException | IOException e) {
             e.printStackTrace();
         }
     }
@@ -476,12 +488,11 @@ public class SolrConnect
         QueryResponse response = null;
         try {
             response = client.query(query);
-        } catch (SolrServerException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (SolrServerException | IOException e) {
             e.printStackTrace();
         }
 
+        assert response != null;
         SolrDocumentList docList = response.getResults();
         assertEquals(docList.getNumFound(), 1);
         for (SolrDocument doc : docList)
@@ -492,38 +503,30 @@ public class SolrConnect
         SolrDocument oldDoc = response.getResults().get(0);
         SolrInputDocument inputDocument = new SolrInputDocument();
         Collection<String> feldnamensliste = oldDoc.getFieldNames();
-        ArrayList<String> list = new ArrayList<String>();
-        for (String str:feldnamensliste)
-        {
-            list.add(str);
-        }
+        ArrayList<String> list = new ArrayList<>();
+        list.addAll(feldnamensliste);
 
-        for (int i=0; i<list.size();i++)
-        {
-            inputDocument.addField(list.get(i), oldDoc.getFieldValue(list.get(i)));
+        for (String s : list) {
+            inputDocument.addField(s, oldDoc.getFieldValue(s));
         }
 
         inputDocument.getField(fieldName).setValue(object, 1.0f);
         try {
             client.add(inputDocument);
-        } catch (SolrServerException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (SolrServerException | IOException e) {
             e.printStackTrace();
         }
 
         try {
             client.commit();
-        } catch (SolrServerException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (SolrServerException | IOException e) {
             e.printStackTrace();
         }
     }
 
     /**
      * Die Methode liest die Textdatei "outputID.txt" ein und gibt eine Arrayliste zurück
-     * @return
+     * @return gibt eine Arraylist mit allen IDs zurück
      */
     public ArrayList idEinleser()
     {
@@ -533,6 +536,7 @@ public class SolrConnect
 
         BufferedReader TSVFile = null;
         try {
+            assert input != null;
             TSVFile = new BufferedReader(
                     new InputStreamReader(input));
             String dataRow = null; // Read first line
@@ -563,8 +567,8 @@ public class SolrConnect
     /**
      * Die Methode gibt die entsprechende Frage zu einer gegebenen ID zurück, um sie für Klassifikationen einlesen
      * zu können
-     * @param docId
-     * @return
+     * @param docId die DokumentenID, der Primärschlüssel
+     * @return gibt die Kundenanfrage zu einer gegebenen ID zurück
      */
     public Object fragenAusgeber(String docId)
     {
@@ -573,12 +577,11 @@ public class SolrConnect
         QueryResponse response = null;
         try {
             response = client.query(query);
-        } catch (SolrServerException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (SolrServerException | IOException e) {
             e.printStackTrace();
         }
 
+        assert response != null;
         SolrDocumentList docList = response.getResults();
         assertEquals(docList.getNumFound(), 1);
         for (SolrDocument doc : docList)
@@ -597,17 +600,16 @@ public class SolrConnect
      */
     public void changeExpertensystemFields()
     {
-        ArrayList arrayList = new ArrayList();
+        ArrayList arrayList;
         arrayList = idEinleser();
 
-        for(int i = 0; i<arrayList.size(); i++)
-        {
-            Object question = fragenAusgeber(arrayList.get(i).toString());
+        for (Object o : arrayList) {
+            Object question = fragenAusgeber(o.toString());
             MieterClassifier mieterClassifier = new MieterClassifier();
             Object value = mieterClassifier.istHauptklasse(question.toString());
             Object value2 = mieterClassifier.classify(question.toString());
-            changeValueByField(arrayList.get(i).toString(), "Expertensystem_istmieter", value);
-            changeValueByField(arrayList.get(i).toString(), "Expertensystem_wert", value2);
+            changeValueByField(o.toString(), "Expertensystem_istmieter", value);
+            changeValueByField(o.toString(), "Expertensystem_wert", value2);
         }
     }
 
@@ -620,60 +622,55 @@ public class SolrConnect
         ArrayList arrayList = new ArrayList();
         arrayList = idEinleser();
 
-        for(int i = 0; i<arrayList.size(); i++)
-        {
-            Object question = fragenAusgeber(arrayList.get(i).toString());
+        for (Object o : arrayList) {
+            Object question = fragenAusgeber(o.toString());
             WatsonMieterClassifier watsonmieterClassifier = new WatsonMieterClassifier();
             Object value = watsonmieterClassifier.classify(question.toString());
             Object value2 = watsonmieterClassifier.istHauptklasse(question.toString());
-            changeValueByField(arrayList.get(i).toString(), "Watson_istmieter", value2);
-            changeValueByField(arrayList.get(i).toString(), "Watson", value);
+            changeValueByField(o.toString(), "Watson_istmieter", value2);
+            changeValueByField(o.toString(), "Watson", value);
         }
     }
 
     /**
      * Anhand einer ID wird das JSON-Objekt aus Solr gelöscht
-     * @param docID Eine ID als String
+     * @param docID eine ID als String
      */
     public void solrDeleteByID(String docID)
     {
         try {
             client.deleteById(docID);
-        } catch (SolrServerException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (SolrServerException | IOException e) {
             e.printStackTrace();
         }
         try {
             client.commit();
-        } catch (SolrServerException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (SolrServerException | IOException e) {
             e.printStackTrace();
         }
     }
 
 
     /**
-     * Eine allgemeine Methode um Übereinstimmungen zwischen den Listen oder  Watson mit den Rechtsexperten übereinstimmt
-     * @param fieldname1
-     * @param param1
-     * @param param2
-     * @return
+     * Eine allgemeine Methode um die Anzahl an Übereinstimmungen zwischen den Listen oder Watson mit den
+     * Rechtsexperten zu erhalten
+     * @param fieldname ein Watson- oder ein Expertensystemfeld
+     * @param param1 einen true- oder false-Wert zu dem fieldnamen
+     * @param param2 ein true- oder false-Wert zu dem Rechtsexperten_istmieter-Feld
+     * @return gibt die Zahl der übereinstimmenden Fälle an
      */
-    public int getÜbereinstimmung(String fieldname1, Object param1, Object param2)
+    int getUebereinstimmung(String fieldname, Object param1, Object param2)
     {
         SolrQuery query = new SolrQuery();
-        query.set("q", ""+fieldname1+":"+param1+" AND "+"Rechtsexperten_istmieter"+":"+param2);
+        query.set("q", ""+fieldname+":"+param1+" AND "+"Rechtsexperten_istmieter"+":"+param2);
         query.setRows(10001);
         QueryResponse response = null;
         try {
             response = client.query(query);
-        } catch (SolrServerException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (SolrServerException | IOException e) {
             e.printStackTrace();
         }
+        assert response != null;
         SolrDocumentList results = response.getResults();
         long key = results.getNumFound();
         int keyInt = toIntExact(key);
@@ -683,9 +680,9 @@ public class SolrConnect
     /**
      * Die Methode nimmt einen Feldnamen entgegen und vergleicht ihn mit dem Feld "Preis"
      * @param fieldName Nimmt einen Feldnamen entgegen, um den Wert des Feldes dem Feld "Preis" zu vergleichen
-     * @return
+     * @return gibt einen aufsteigend geordneten String im Format [eines Feldwert, Preis] ... zurück
      */
-    public String comparer(String fieldName) {
+    String comparer(String fieldName) {
         StringBuilder sb = new StringBuilder();
         SolrQuery query = new SolrQuery();
         query.set("q", "*:*");
@@ -693,17 +690,16 @@ public class SolrConnect
         QueryResponse response = null;
         try {
             response = client.query(query);
-        } catch (SolrServerException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (SolrServerException | IOException e) {
             e.printStackTrace();
         }
 
+        assert response != null;
         SolrDocumentList results = response.getResults();
-        Object doc = "";
-        Object doc1 = "";
-        ArrayList<Object> array1 = new ArrayList<Object>();
-        ArrayList<Object> array2 = new ArrayList<Object>();
+        Object doc;
+        Object doc1;
+        ArrayList<Object> array1 = new ArrayList<>();
+        ArrayList<Object> array2 = new ArrayList<>();
         for (SolrDocument document : results) {
             doc = ((List)document.getFieldValue(fieldName)).get(0);
             array1.add(doc);
@@ -711,16 +707,16 @@ public class SolrConnect
             array2.add(doc1);
         }
 
-        HashMap<Integer, String> hmap = new HashMap<Integer, String>();
+        HashMap<Integer, String> hmap = new HashMap<>();
         for(int i=0;i<array1.size(); i++)
         {
             int key = Integer.valueOf((array1.get(i)).toString());
             hmap.put(key, array2.get(i).toString());
         }
 
-        hmap = removeXValuesFromHashMap(20, hmap);
+        hmap = removeXValuesFromHashMap(30, hmap);
 
-        Map<Integer, String> map = new TreeMap<Integer, String>(hmap);
+        Map<Integer, String> map = new TreeMap<>(hmap);
         Set set2 = map.entrySet();
         Iterator iterator2 = set2.iterator();
         while(iterator2.hasNext()) {
@@ -731,12 +727,12 @@ public class SolrConnect
     }
 
     /**
-     *
-     * @param anzahl
-     * @param hmap
-     * @return
+     * Entfernt eine eingegebene Anzahl an höchsten Werten aus einer Hashmap zur Entfernung von Ausreißern
+     * @param anzahl eine Anzahl an zu entfernenden Werten
+     * @param hmap eine Hashmap
+     * @return die um die gegebene Anzahl reduzierte Hashmap
      */
-    HashMap removeXValuesFromHashMap(int anzahl, HashMap hmap)
+    private HashMap removeXValuesFromHashMap(int anzahl, HashMap hmap)
     {
         Iterator<Integer> iterator = hmap.keySet().iterator();
 
@@ -760,8 +756,8 @@ public class SolrConnect
 
 
     /**
-     * Gibt die Gesamtzahl der Felder "Rechtsexperten_istmieter" zurück
-     * @return
+     * Gibt die Gesamtzahl der Felder Rechtsexperten_istmieter zurück
+     * @return die Gesamtzahl der Felder Rechtsexperten_istmieter
      */
     public int getAnzahlRechtsexpertenfelder()
     {
@@ -772,11 +768,10 @@ public class SolrConnect
         QueryResponse response = null;
         try {
             response = client.query(query);
-        } catch (SolrServerException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (SolrServerException | IOException e) {
             e.printStackTrace();
         }
+        assert response != null;
         SolrDocumentList results = response.getResults();
         long key = results.getNumFound();
         int keyInt = toIntExact(key);
@@ -785,8 +780,8 @@ public class SolrConnect
 
     /**
      * Mithilfe der Methode lässt sich prüfen, ob es sich bei der gegebenen ID um einen Problemfall handelt
-     * @param
-     * @return
+     * @param docId eine Id als Primärschlüssel
+     * @return true, falls Problemfall
      */
     public boolean istProblemfall(String docId)
     {
@@ -796,11 +791,10 @@ public class SolrConnect
         QueryResponse response = null;
         try {
             response = client.query(query);
-        } catch (SolrServerException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (SolrServerException | IOException e) {
             e.printStackTrace();
         }
+        assert response != null;
         SolrDocumentList docList = response.getResults();
         assertEquals(docList.getNumFound(), 1);
 
@@ -811,18 +805,14 @@ public class SolrConnect
 
         SolrDocument oldDoc = response.getResults().get(0);
         String fieldValue = oldDoc.getFieldValue("Expertensystem_wert").toString();
-        if(fieldValue.compareTo("[0.5]") == 0)
-        {
-            return true;
-        }
-        return false;
+        return fieldValue.compareTo("[0.5]") == 0;
     }
 
     /**
-     * Gibt die Anzahl an Problemfällen, bei denen im Expertensystem der Wert 0.5 beträgt, zurück
-     * @return
+     * Gibt die Anzahl an Mieterproblemfällen, bei denen im Expertensystem der Wert 0.5 beträgt, zurück
+     * @return gibt Anzahl der Problemfälle für Mieter zurück
      */
-    public int getAnzahlProblemfälle()
+    public int getAnzahlProblemfaelle()
     {
         SolrQuery query = new SolrQuery();
         query.set("q", "Expertensystem_wert:"+0.5+" AND "+"Rechtsexperten_istmieter:"+true);
@@ -830,11 +820,10 @@ public class SolrConnect
         QueryResponse response = null;
         try {
             response = client.query(query);
-        } catch (SolrServerException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (SolrServerException | IOException e) {
             e.printStackTrace();
         }
+        assert response != null;
         SolrDocumentList results = response.getResults();
         long key = results.getNumFound();
         int keyInt = toIntExact(key);
@@ -842,23 +831,20 @@ public class SolrConnect
     }
 
     /**
-     *
-     * @param text
-     * @return
+     * Stellt zu einem gegebenen Text fest, ob es sich um einen Mieterproblemfall handelt
+     * @param text ein Text
+     * @return true, falls Mieterproblemfall
      */
     public boolean istProblemfallMieter(String text)
     {
         MieterClassifier mieterClassifier = new MieterClassifier();
         double wert = mieterClassifier.classify(text);
-        if(wert == 0.5)
-        {
-            return true;
-        }
-        return false;
+        return wert == 0.5;
     }
 
     /**
-     *
+     * Stellt zu einem gegebenen Text fest, ob es sich um einen Gewerblichproblemfall handelt
+     * @return true, falls Gewerblichproblemfall
      */
     public void istProblemfallGewerblich(String text)  //Boolean!!!
     {
@@ -872,9 +858,9 @@ public class SolrConnect
     }
 
     /**
-     *
-     * @param text
-     * @return
+     * Wenn der Absendebutton im Webinterface gedrückt wurde, wird diese Methode ausgeführt
+     * @param text eine angegebene Frage
+     * //@return eine Preisempfehlung und eventuelle Nachfragen
      */
     public String absendeButtonPushed(String text)
     {
