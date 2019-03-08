@@ -8,7 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import uhh_lt.classifier.ClassifierInterface;
 import uhh_lt.classifier.MieterClassifier;
+import uhh_lt.classifier.WatsonMieterClassifier;
 import uhh_lt.datenbank.SolrConnect;
 import uhh_lt.datenbank.Statistikmethoden;
 
@@ -274,12 +276,21 @@ public class ApplicationController  extends SpringBootServletInitializer {
         model.addAttribute("w22", sm.getWatson22());
         return "table"; //view
     }
-@RequestMapping("/result")
-    public String result(Model model)
+    @RequestMapping("/result")
+    public String result (@RequestParam(value = "text", defaultValue = "") String text,         @RequestParam(value = "format", defaultValue = "text") String format, Model model)
     {
         SolrConnect sc = new SolrConnect();
+        String frg = "";
         Preisempfehlungsberechner pb = new Preisempfehlungsberechner();
-        model.addAttribute("preis", "asdf");
+        WatsonMieterClassifier mc = new WatsonMieterClassifier();
+
+        text = text.replace("\r", " ").replace("\n", " ").trim();
+        try {
+            model.addAttribute("preis", pb.getPrice(text));
+            model.addAttribute("mieter",mc.istHauptklasse(text));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return "result";
 
     }
