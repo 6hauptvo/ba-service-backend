@@ -945,7 +945,6 @@ public class SolrConnect
                     "Möchten Sie vielleicht zusätzlich angeben ob die Nutzung gewerblich oder privat ist, falls Sie das noch " +
                     "nicht getan haben und für relevant halten?";
         }
-
         return param1 + param2;
     }
 }

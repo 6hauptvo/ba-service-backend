@@ -157,21 +157,22 @@ function drawChart() {
     function drawDualY() {
     var data3 = new google.visualization.DataTable();
     data3.addColumn('string', 'Statistische Gütekriterien der Klassifikation');
-    data3.addColumn('number', 'Expertensystem');
-    data3.addColumn('number', 'Expertensystem unbereinigt');
-    data3.addColumn('number', 'Watsonsystem');
+    data3.addColumn('number', 'Expertensystem gefiltert Mieter');
+    data3.addColumn('number', 'Expertensystem ungefiltert Mieter');
+    data3.addColumn('number', 'Watsonsystem Mieter');
+    data3.addColumn('number', 'Expertensystem ungefiltert Gewerblich');
 
     data3.addRows([
-    ['Trefferquote', etre, aetre, wtre],
-    ['Genauigkeit', egen, aegen, wgen],
-    ['Korrektklassifikationsrate', ekor, aekor, wkor],
-    ['Falschklassifikationsrate', efal, aefal, wfal],
+    ['Trefferquote', etre, aetre, wtre, 75.86],
+    ['Genauigkeit', egen, aegen, wgen, 88.00],
+    ['Korrektklassifikationsrate', ekor, aekor, wkor, 93.90],
+    ['Falschklassifikationsrate', efal, aefal, wfal, 6.10],
     ]);
 
     var options3 =
     {
         title: 'Vergleich der Klassifikationssysteme',
-        colors: ['#9575cd', '#33ac71', '#e5e4e2'],
+        colors: ['#9575cd', '#33ac71', '#e5e4e2', '#b87333'],
         hAxis: {
           title: 'Statisitische Gütekriterien der Klassifikationen',
           viewWindow: {
@@ -218,7 +219,6 @@ function drawChart() {
 <p> <center><b><span th:text="'Falschklassifikationsrate: ' + ${efal}+'%'+ ' (ohne Voraussortierung der nichtzuordnenbaren Fälle: ' + ${aefal} +'%'+')'"></span></b></center></p>
 <p> <center> Die Raten geben jeweils an wieviele Objekte prozentual richtig beziehungsweise falsch klassifiziert wurden.</center></p>
 <p> <center><span th:text="'Problemfälle, die nicht klassifiziert werden konnten: ' + ${ep} + ' von insgesamt ' + ${gesan} + ' annotierten Fällen.'"></span> </center></p>
-<div id='chart3_div'></div>
 <h1> Gewerblich-Privat-Konfusionsmatrix für das Expertensystem im Vergleich zu den Rechtsexperten</h1>
 <div id='table3_div'></div>
 <p> Der Wert 1 in der Tabelle repräsentiert true, der Wert 2 false. Aus der Tabelle lässt sich also ablesen,
@@ -231,6 +231,9 @@ function drawChart() {
 <p> <center><b>Korrektklassifikationsrate: 93.90%</b></center></p>
 <p> <center><b>Falschklassifikationsrate: 6.10%</b></center></p>
 <p> <center> Die Raten geben jeweils an wieviele Objekte prozentual richtig beziehungsweise falsch klassifiziert wurden.</center></p>
+<div id='chart3_div'></div>
+<p> <center> Gefilterte bedeutet in diesem Zusammenhang, dass alle Problemfälle voraussortiert wurden. Ungefiltert bezieht sich auf die komplette Menge an annotierten Resultaten.</center></p>
+
 
 <div class="w3-center">
     <form action="http://localhost:8080/welcome" method="get">
