@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import uhh_lt.classifier.ClassifierInterface;
+import uhh_lt.classifier.GewerblichClassifier;
 import uhh_lt.classifier.MieterClassifier;
 import uhh_lt.classifier.WatsonMieterClassifier;
 import uhh_lt.datenbank.SolrConnect;
@@ -268,6 +270,7 @@ public class ApplicationController  extends SpringBootServletInitializer {
     @RequestMapping("/table")
     public String mainy (Model model)
     {
+        SolrConnect sc = new SolrConnect();
         Statistikmethoden sm = new Statistikmethoden();
         model.addAttribute("w11", sm.getWatson11());
         model.addAttribute("w12", sm.getWatson12());
@@ -276,30 +279,30 @@ public class ApplicationController  extends SpringBootServletInitializer {
         return "table"; //view
     }
     @RequestMapping("/result")
-    public String result (@RequestParam(value = "text", defaultValue = "") String text, @RequestParam(value = "format", defaultValue = "text") String format, Model model)
+    public String result (@RequestParam(value = "text", defaultValue = "") String text,         @RequestParam(value = "format", defaultValue = "text") String format, Model model)
     {
         SolrConnect sc = new SolrConnect();
-        String frg = "";
         Preisempfehlungsberechner pb = new Preisempfehlungsberechner();
-        WatsonMieterClassifier mc = new WatsonMieterClassifier();
-
+        MieterClassifier mc = new MieterClassifier();
+        GewerblichClassifier gc = new GewerblichClassifier();
         text = text.replace("\r", " ").replace("\n", " ").trim();
-        try
-        {
+        try {
+            model.addAttribute("input", text);
+            model.addAttribute("mieter", mc.istHauptklasse(text));
             model.addAttribute("preis", pb.getPrice(text));
-            model.addAttribute("mieter",mc.istHauptklasse(text));
-        }
-        catch (Exception e)
-        {
+            model.addAttribute("gewerblich", gc.istHauptklasse(text));
+
+        }   catch (Exception e) {
             e.printStackTrace();
         }
         return "result";
-    }
 
+    }
     @RequestMapping("/welcome")
     public String welcome(Model model)
     {
         return "welcome";
+
     }
 
     @RequestMapping("/test")
