@@ -11,7 +11,7 @@ public class LinearRegressionClassifier {
 
     public static void main(String args[]) throws Exception{
         //load dataset
-        DataSource source = new DataSource("resources/LangeZeitPreis.csv");
+        DataSource source = new DataSource("resources/price_training_2.csv");
         Instances dataset = source.getDataSet();
         //set class index to the last attribute
         System.out.println(dataset);
