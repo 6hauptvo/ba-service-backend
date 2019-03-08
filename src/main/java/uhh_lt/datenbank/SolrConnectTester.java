@@ -7,7 +7,7 @@ public class SolrConnectTester {
     public static void main(String[] args)
     {
         SolrConnect connect = new SolrConnect();
-        connect.getPreis("322600");
+        connect.getAnzahlProblemfaelleOhneRechtsexpertenfeldMieter();
 
         /**
         SolrConnect connect = new SolrConnect();

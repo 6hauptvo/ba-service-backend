@@ -18,7 +18,6 @@ public class MieterClassifier implements ClassifierInterface
     private int mieterScore;
     private double mieterWahrscheinlichkeit;
 
-
     public MieterClassifier()
     {
         dateiEinleser("Mieter", mieterTerms);
@@ -29,51 +28,47 @@ public class MieterClassifier implements ClassifierInterface
 
     /**
      * Der Dateieinleser liest Textdateien aus dem resources folder ein
-     *
      * @param Filename Den Filenamen als String
      * @param Dictionary Eine HashMap
      */
-
-    private void dateiEinleser(String Filename, HashMap<String, Integer> Dictionary) {
-        //System.out.println("loading: " +Filename);
-
+    private void dateiEinleser(String Filename, HashMap<String, Integer> Dictionary)
+    {
+        System.out.println("loading: " +Filename);
         InputStream input = getClass().getClassLoader().getResourceAsStream(Filename);
-
-        BufferedReader TSVFile = null;
-        try {
+        BufferedReader TSVFile;
+        try
+        {
+            assert input != null;
             TSVFile = new BufferedReader(
                     new InputStreamReader(input));
-            String dataRow = null; // Read first line
+            String dataRow; // Read first line
 
                 dataRow = TSVFile.readLine();
-                while (dataRow != null) {
-                    //String[] dataArray = dataRow.split("\t");
+                while (dataRow != null)
+                {
                     String data = dataRow.trim();
-                    //for (String item : data)
-                    //{
-                    if (!data.isEmpty()) {
+                    if (!data.isEmpty())
+                    {
                         Dictionary.put(data.toLowerCase(), 1);
                     }
-
-                    //}
-
-                    dataRow = TSVFile.readLine(); // Read next line of data.
+                    dataRow = TSVFile.readLine(); // Read next line of data
                 }
-                //System.out.println(Dictionary);
                 TSVFile.close();
-
-            } catch (FileNotFoundException e) {
-                System.err.println("Die Datei konnte nicht geöffnet werden");
-            } catch (IOException e) {
+            }
+        catch (FileNotFoundException e)
+        {
+            System.err.println("Die Datei konnte nicht geöffnet werden");
+        }
+        catch (IOException e)
+        {
             e.printStackTrace();
         }
-        //System.out.println("...done");
+        System.out.println("...done");
     }
 
     public Double classify(String text)
     {
         //System.out.println(text);
-
         text = text.toLowerCase();
         vermieterScore = 0;
         mieterScore = 0;
@@ -103,10 +98,14 @@ public class MieterClassifier implements ClassifierInterface
     }
 
     @Override
-    public boolean istHauptklasse() {
-        if (mieterWahrscheinlichkeit > 0.5) {
+    public boolean istHauptklasse()
+    {
+        if (mieterWahrscheinlichkeit > 0.5)
+        {
             return true;
-        } else if (mieterWahrscheinlichkeit < 0.5) {
+        }
+        else if (mieterWahrscheinlichkeit < 0.5)
+        {
             return false;
         }
         return false;
@@ -117,7 +116,6 @@ public class MieterClassifier implements ClassifierInterface
      * ausgibt
      * @return float Die Vermieterwahrscheinlichkeit
      */
-
     public Double getVermieterwahrscheinlichkeit()
     {
         return 1-mieterWahrscheinlichkeit;
@@ -128,7 +126,6 @@ public class MieterClassifier implements ClassifierInterface
      * ausgibt
      * @return float die Mieterwahrscheinlichkeit
      */
-
     public Double getMieterwahrscheinlichkeit()
     {
         return mieterWahrscheinlichkeit;
@@ -138,7 +135,6 @@ public class MieterClassifier implements ClassifierInterface
      * Gibt die Mieterwahrscheinlichkeit in einem kurzen Text eingebettet zurück.
      * @return Einen String
      */
-
     public String getMieterwahrscheinlichkeitAsString()
     {
         if (mieterWahrscheinlichkeit > 0.5)
@@ -161,7 +157,6 @@ public class MieterClassifier implements ClassifierInterface
      * Gibt den Vermieterscore zurück
      * @return Vermieterscore als int
      */
-
     public int getVermieterScore()
     {
         return vermieterScore;
@@ -171,15 +166,14 @@ public class MieterClassifier implements ClassifierInterface
      * Gibt den Mieterscore zurück
      * @return Mieterscore als int
      */
-
     public int getMieterScore()
     {
         return mieterScore;
     }
 
-
     @Override
-    public Object istHauptklasse(String text) {
+    public Object istHauptklasse(String text)
+    {
         double p = classify(text);
 
         if (p > 0.5) {

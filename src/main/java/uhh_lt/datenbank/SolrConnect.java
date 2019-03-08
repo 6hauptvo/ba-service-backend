@@ -9,6 +9,7 @@ import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
 import org.json.simple.JSONObject;
+import uhh_lt.classifier.GewerblichClassifier;
 import uhh_lt.classifier.MieterClassifier;
 import uhh_lt.classifier.WatsonMieterClassifier;
 import uhh_lt.webserver.Datendifferenzberechner;
@@ -456,23 +457,50 @@ public class SolrConnect
         ArrayList<String> list = new ArrayList<>();
         list.addAll(feldnamensliste);
 
-        for (String s : list) {
+        for (String s : list)
+        {
             inputDocument.addField(s, oldDoc.getFieldValue(s));
         }
 
         inputDocument.addField(fieldName, object);
-        try {
+        try
+        {
             client.add(inputDocument);
-        } catch (SolrServerException | IOException e) {
+        }
+        catch (SolrServerException | IOException e)
+        {
             e.printStackTrace();
         }
 
-        try {
+        try
+        {
             client.commit();
-        } catch (SolrServerException | IOException e) {
+        }
+        catch (SolrServerException | IOException e)
+        {
             e.printStackTrace();
         }
     }
+
+
+    /**
+     * Fügt allen JSON Objekten in Solr ein neues Feld mit dem eingegebnen Feldnamen hinzu
+     */
+    public void addFieldForAllIDs()
+    {
+        ArrayList arrayList;
+        arrayList = idEinleser();
+
+        for (Object o : arrayList)
+        {
+            Object question = fragenAusgeber(o.toString());
+            GewerblichClassifier gewerblichClassifier = new GewerblichClassifier();
+            Object value = gewerblichClassifier.istHauptklasse(question.toString());
+            addField(o.toString(), "Expertensystem_istgewerblich", value);
+        }
+    }
+
+
 
     /**
      * Es können gezielt Felder per ID in der Datenbank aufgerufen und verändert werden
@@ -674,6 +702,28 @@ public class SolrConnect
         SolrDocumentList results = response.getResults();
         long key = results.getNumFound();
         int keyInt = toIntExact(key);
+        return keyInt;
+    }
+
+    /**
+     *
+     */
+    public int getAnzahlProblemfaelleOhneRechtsexpertenfeldMieter()
+    {
+        SolrQuery query = new SolrQuery();
+        query.set("q", "Problemfall:* AND !Rechtsexperten_istmieter:*");
+        query.setRows(10001);
+        QueryResponse response = null;
+        try {
+            response = client.query(query);
+        } catch (SolrServerException | IOException e) {
+            e.printStackTrace();
+        }
+        assert response != null;
+        SolrDocumentList results = response.getResults();
+        long key = results.getNumFound();
+        int keyInt = toIntExact(key);
+        System.out.println(keyInt);
         return keyInt;
     }
 

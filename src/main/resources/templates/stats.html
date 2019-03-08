@@ -28,7 +28,7 @@ function drawChart() {
 
         var options2 = {
           title: 'Text Length vs. Price Comparison',
-          hAxis: {title: 'Text Length', minValue: 0, maxValue: 30},
+          hAxis: {title: 'Length of Text', minValue: 0, maxValue: 30},
           vAxis: {title: 'Price', minValue: 0, maxValue: 180},
           trendlines: { 0: {} }
         };
@@ -84,6 +84,26 @@ function drawChart() {
         table2.draw(data, {showRowNumber: true, width: '100%', height: '100%'});
       }
 </script>
+
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['table']});
+      google.charts.setOnLoadCallback(drawTable);
+
+      function drawTable() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('number', 1);
+        data.addColumn('number', 2);
+        data.addRows([
+          [22,  3],
+          [7,  132],
+        ]);
+
+        var table3 = new google.visualization.Table(document.getElementById('table3_div'));
+
+        table3.draw(data, {showRowNumber: true, width: '100%', height: '100%'});
+      }
+</script>
+
     <script th:text="'var ep=' + ${ep}+ ';'"></script>
     <script th:text="'var etre=' + ${etre}+ ';'"></script>
     <script th:text="'var wtre=' + ${wtre}+ ';'"></script>
@@ -97,6 +117,7 @@ function drawChart() {
     <script th:text="'var aekor=' + ${aekor}+ ';'"></script>
     <script th:text="'var aegen=' + ${aegen}+ ';'"></script>
     <script th:text="'var aetre=' + ${aetre}+ ';'"></script>
+    <script th:text="'var gesan=' + ${gesan}+ ';'"></script>
 
     <script type="text/javascript">google.charts.load('current', {packages: ['corechart', 'bar']});
     google.charts.setOnLoadCallback(drawDualY);
@@ -137,35 +158,46 @@ function drawChart() {
 </head>
 <body>
 <h1> Dauer-Preis-Vergleich </h1>
-
 <div id='chart_div'></div>
 <h1> Fragelänge-Preis-Vergleich </h1>
 <div id='chart2_div'></div>
-<h1> Konfusionsmatrix für Watson im Vergleich zu den Rechtsexperten </h1>
+<h1> Mieter-Vermieter-Konfusionsmatrix für Watson im Vergleich zu den Rechtsexperten </h1>
 <div id='table_div'></div>
-<p> Der Wert 1 in der Tabelle repräsentiert true, der Wert 2 false. Aus der Tabelle lässt sich also ablesen,
+<p>Der Wert 1 in der Tabelle repräsentiert true, der Wert 2 false. Aus der Tabelle lässt sich also ablesen,
 wie oft das Watsonsystem mit den Rechtsexperten bezüglich true übereinstimmt - an der Stelle 1-1 - und abweicht - bei
 1-2. Gleiches gilt für die Übereinstimmung bezüglich false - 2-2 - und die Abweichung bezüglich false - 2-1.</p>
-<p> <center><b><span th:text="'Recall: ' + ${wtre}"></span></b></center></p>
+<p> <center><b><span th:text="'Recall: ' + ${wtre}+'%'"></span></b></center></p>
 <p> <center> Als Recall bezeichnet man die Trefferquote. Die Trefferquote gibt den Anteil der korrekt als positiv klassifizierten Objekte an der Gesamtheit der tatsächlich positiven Objekte an. </center></p>
-<p> <center><b><span th:text="'Precision: ' + ${wgen}"></span></b></center></p>
+<p> <center><b><span th:text="'Precision: ' + ${wgen}+'%'"></span></b></center></p>
 <p> <center> Als Precision bezeichnet man die Genauigkeit oder Relevanz. Sie gibt den Anteil der korrekt als positiv klassifizierten Ergebnisse an der Gesamtheit der als positiv klassifizierten Ergebnisse an. </center></p>
-<p> <center><b><span th:text="'Korrektklassifikationsrate: ' + ${wkor}"></span></b></center></p>
-<p> <center><b><span th:text="'Falschklassifikationsrate: ' + ${wfal}"></span></b></center></p>
+<p> <center><b><span th:text="'Korrektklassifikationsrate: ' + ${wkor}+'%'"></span></b></center></p>
+<p> <center><b><span th:text="'Falschklassifikationsrate: ' + ${wfal}+'%'"></span></b></center></p>
 <p> <center> Die Raten geben jeweils an wieviele Objekte prozentual richtig beziehungsweise falsch klassifiziert wurden.</center></p>
-<h1> Konfusionsmatrix für das Expertensystem im Vergleich zu den Rechtsexperten</h1>
+<h1> Mieter-Vermieter-Konfusionsmatrix für das Expertensystem im Vergleich zu den Rechtsexperten</h1>
 <div id='table2_div'></div>
 <p> Der Wert 1 in der Tabelle repräsentiert true, der Wert 2 false. Aus der Tabelle lässt sich also ablesen,
-    wie oben ablesen wie oft hier das Expertensystem mit den Rechtsexperten bezüglich true übereinstimmt - an der Stelle 1-1 - und abweicht - bei
+    wie oft hier das Expertensystem mit den Rechtsexperten bezüglich true übereinstimmt - an der Stelle 1-1 - und abweicht - bei
     1-2. Gleiches gilt für die Übereinstimmung bezüglich false - 2-2 - und die Abweichung bezüglich false - 2-1.</p>
-<p> <center><b><span th:text="'Recall: ' + ${etre} + ' (ohne Voraussortierung der nichtzuordnenbaren Fälle: ' + ${aetre + ')'}"></span></b></center></p>
+<p> <center><b><span th:text="'Recall: ' + ${etre}+'%' + ' (ohne Voraussortierung der nichtzuordnenbaren Fälle: ' + ${aetre +'%'+')'}"></span></b></center></p>
 <p> <center> Als Recall bezeichnet man die Trefferquote. Die Trefferquote gibt den Anteil der korrekt als positiv klassifizierten Objekte an der Gesamtheit der tatsächlich positiven Objekte an. </center></p>
-<p> <center><b><span th:text="'Precision: ' + ${egen} + ' (ohne Voraussortierung der nichtzuordnenbaren Fälle: ' + ${aegen} + ')'"></span></b></center></p>
+<p> <center><b><span th:text="'Precision: ' + ${egen}+'%'+ ' (ohne Voraussortierung der nichtzuordnenbaren Fälle: ' + ${aegen} +'%'+')'"></span></b></center></p>
 <p> <center> Als Precision bezeichnet man die Genauigkeit oder Relevanz. Sie gibt den Anteil der korrekt als positiv klassifizierten Ergebnisse an der Gesamtheit der als positiv klassifizierten Ergebnisse an. </center></p>
-<p> <center><b><span th:text="'Korrektklassifikationsrate: ' + ${ekor} + ' (ohne Voraussortierung der nichtzuordnenbaren Fälle: ' + ${aekor} + ')'"></span></b></center></p>
-<p> <center><b><span th:text="'Falschklassifikationsrate: ' + ${efal} + ' (ohne Voraussortierung der nichtzuordnenbaren Fälle: ' + ${aefal} + ')'"></span></b></center></p>
+<p> <center><b><span th:text="'Korrektklassifikationsrate: ' + ${ekor}+'%'+ ' (ohne Voraussortierung der nichtzuordnenbaren Fälle: ' + ${aekor} +'%'+')'"></span></b></center></p>
+<p> <center><b><span th:text="'Falschklassifikationsrate: ' + ${efal}+'%'+ ' (ohne Voraussortierung der nichtzuordnenbaren Fälle: ' + ${aefal} +'%'+')'"></span></b></center></p>
 <p> <center> Die Raten geben jeweils an wieviele Objekte prozentual richtig beziehungsweise falsch klassifiziert wurden.</center></p>
-<p> <center><span th:text="'Problemfälle, die nicht klassifiziert werden konnten: ' + ${ep}"></span> </center></p>
+<p> <center><span th:text="'Problemfälle, die nicht klassifiziert werden konnten: ' + ${ep} + ' von insgesamt ' + ${gesan} + ' annotierten Fällen.'"></span> </center></p>
 <div id='chart3_div'></div>
+<h1> Gewerblich-Privat-Konfusionsmatrix für das Expertensystem im Vergleich zu den Rechtsexperten</h1>
+<div id='table3_div'></div>
+<p> Der Wert 1 in der Tabelle repräsentiert true, der Wert 2 false. Aus der Tabelle lässt sich also ablesen,
+    wie oft hier das Expertensystem mit den Rechtsexperten bezüglich true übereinstimmt - an der Stelle 1-1 - und abweicht - bei
+    1-2. Gleiches gilt für die Übereinstimmung bezüglich false - 2-2 - und die Abweichung bezüglich false - 2-1.</p>
+<p> <center><b>Recall: 75.86%</b></center></p>
+<p> <center> Als Recall bezeichnet man die Trefferquote. Die Trefferquote gibt den Anteil der korrekt als positiv klassifizierten Objekte an der Gesamtheit der tatsächlich positiven Objekte an. </center></p>
+<p> <center><b>Precision: 88.00%</b></center></p>
+<p> <center> Als Precision bezeichnet man die Genauigkeit oder Relevanz. Sie gibt den Anteil der korrekt als positiv klassifizierten Ergebnisse an der Gesamtheit der als positiv klassifizierten Ergebnisse an. </center></p>
+<p> <center><b>Korrektklassifikationsrate: 93.90%</b></center></p>
+<p> <center><b>Falschklassifikationsrate: 6.10%</b></center></p>
+<p> <center> Die Raten geben jeweils an wieviele Objekte prozentual richtig beziehungsweise falsch klassifiziert wurden.</center></p>
 </body>
 </html>

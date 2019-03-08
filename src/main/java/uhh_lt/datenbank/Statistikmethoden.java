@@ -122,6 +122,7 @@ public class Statistikmethoden
         return solrConnect.getUebereinstimmung("Expertensystem_istmieter", false, true);
     }
 
+
     /**
      * Gibt die Trefferquote (richtig positiv geteilt durch richtig positiv plus falsch negativ) der Listen aus
      * @return die Trefferquote oder -1 im Fehlerfall

@@ -230,7 +230,6 @@ public class ApplicationController  extends SpringBootServletInitializer {
     {
         SolrConnect sc = new SolrConnect();
         Statistikmethoden sm = new Statistikmethoden();
-        try {
         model.addAttribute("message", sm.dauerPreisComparer());
         model.addAttribute("message1", sm.fragelängePreisComparer());
         model.addAttribute("w11", sm.getWatson11());
@@ -253,11 +252,8 @@ public class ApplicationController  extends SpringBootServletInitializer {
         model.addAttribute("aekor", sm.getAlleKorrektklassifikationsrateListen());
         model.addAttribute("aefal", sm.getAlleFalschklassifikationsrateListen());
         model.addAttribute("aetre", sm.getAlleTrefferquoteListen());
-        model.addAttribute("aegen", sm.getAlleGenauigkeitListen()); }
-
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+        model.addAttribute("aegen", sm.getAlleGenauigkeitListen());
+        model.addAttribute("gesan", sc.getAnzahlRechtsexpertenfelder()+sc.getAnzahlProblemfaelleOhneRechtsexpertenfeldMieter());
         return "stats"; //view
     }
 
@@ -308,6 +304,7 @@ public class ApplicationController  extends SpringBootServletInitializer {
         return "welcome";
 
     }
+
     @RequestMapping("/test")
     public String main(Model model)
     {
