@@ -8,10 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import uhh_lt.classifier.ClassifierInterface;
 import uhh_lt.classifier.GewerblichClassifier;
 import uhh_lt.classifier.MieterClassifier;
-import uhh_lt.classifier.WatsonMieterClassifier;
 import uhh_lt.datenbank.SolrConnect;
 import uhh_lt.datenbank.Statistikmethoden;
 
@@ -254,7 +252,7 @@ public class ApplicationController  extends SpringBootServletInitializer {
         model.addAttribute("aetre", sm.getAlleTrefferquoteListen());
         model.addAttribute("aegen", sm.getAlleGenauigkeitListen());
         model.addAttribute("gesan", sc.getAnzahlRechtsexpertenfelder()+sc.getAnzahlProblemfaelleOhneRechtsexpertenfeldMieter());
-        return "stats"; //view
+        return "statsGestyled"; //view
     }
 
     @RequestMapping("/charts")

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<title>W3.CSS Template</title>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css"/>
+
+<script>
+// Side navigation
+function w3_open() {
+  var x = document.getElementById("mySidebar");
+  x.style.width = "20%";
+  x.style.fontSize = "20px";
+  x.style.paddingTop = "10%";
+  x.style.display = "block";
+}
+function w3_close() {
+  document.getElementById("mySidebar").style.display = "none";
+}
+</script>
+
+<nav class="w3-sidebar w3-bar-block w3-card w3-animate-left w3-center" style="display:none" id="mySidebar">
+    <h1 class="w3-xxxMedium w3-text-theme">Side Navigation</h1>
+    <button class="w3-bar-item w3-button" onclick="w3_close()">Close <i class="fa fa-remove"></i></button>
+    <a href="#" class="w3-bar-item w3-button" onclick="location.href='./result';" >Result</a>
+</nav>
+
+<head>
+    <div class="w3-container w3-theme w3-padding">
+        <i onclick="w3_open()" class="fa fa-bars w3-xlarge w3-button w3-theme"></i>
+        <h2 class="w3-center">Statistiken</h2>
+    </div>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script th:text="'var information =[' + ${message}+ '];'"></script>
+    <script th:text=" 'var information2 =[' + ${message1}+ '];'"></script>
+    <script type="text/javascript">google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+function drawChart() {
+        information.unshift(['Length of Time','Price']);
+        var data = google.visualization.arrayToDataTable(information);
+
+        var options = {
+          title: 'Length of Time vs. Price Comparison',
+          hAxis: {title: 'Length of Time', minValue: 0, maxValue: 30},
+          vAxis: {title: 'Price', minValue: 0, maxValue: 180},
+          trendlines: { 0: {} }
+        };
+
+        var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
+
+        chart.draw(data, options);
+
+
+        information2.unshift(['Text Length','Price']);
+        var data2 = google.visualization.arrayToDataTable(information2);
+
+        var options2 = {
+          title: 'Text Length vs. Price Comparison',
+          hAxis: {title: 'Length of Text', minValue: 0, maxValue: 30},
+          vAxis: {title: 'Price', minValue: 0, maxValue: 180},
+          trendlines: { 0: {} }
+        };
+
+        var chart2 = new google.visualization.ScatterChart(document.getElementById('chart2_div'));
+
+        chart2.draw(data2, options2);
+      }
+</script>
+
+
+    <script th:text="'var w11 =' + ${w11}+ ';'"></script>
+    <script th:text="'var w12 =' + ${w12}+ ';'"></script>
+    <script th:text="'var w21 =' + ${w21}+ ';'"></script>
+    <script th:text="'var w22 =' + ${w22}+ ';'"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['table']});
+      google.charts.setOnLoadCallback(drawTable);
+
+      function drawTable() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('number', 1);
+        data.addColumn('number', 2);
+        data.addRows([
+          [w11,  w12],
+          [w21,  w22],
+        ]);
+
+        var table = new google.visualization.Table(document.getElementById('table_div'));
+
+        table.draw(data, {showRowNumber: true, width: '100%', height: '100%'});
+      }
+</script>
+    <script th:text="'var l11 =' + ${l11}+ ';'"></script>
+    <script th:text="'var l12 =' + ${l12}+ ';'"></script>
+    <script th:text="'var l21 =' + ${l21}+ ';'"></script>
+    <script th:text="'var l22 =' + ${l22}+ ';'"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['table']});
+      google.charts.setOnLoadCallback(drawTable);
+
+      function drawTable() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('number', 1);
+        data.addColumn('number', 2);
+        data.addRows([
+          [l11,  l12],
+          [l21,  l22],
+        ]);
+
+        var table2 = new google.visualization.Table(document.getElementById('table2_div'));
+
+        table2.draw(data, {showRowNumber: true, width: '100%', height: '100%'});
+      }
+</script>
+
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['table']});
+      google.charts.setOnLoadCallback(drawTable);
+
+      function drawTable() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('number', 1);
+        data.addColumn('number', 2);
+        data.addRows([
+          [22,  3],
+          [7,  132],
+        ]);
+
+        var table3 = new google.visualization.Table(document.getElementById('table3_div'));
+
+        table3.draw(data, {showRowNumber: true, width: '100%', height: '100%'});
+      }
+</script>
+
+    <script th:text="'var ep=' + ${ep}+ ';'"></script>
+    <script th:text="'var etre=' + ${etre}+ ';'"></script>
+    <script th:text="'var wtre=' + ${wtre}+ ';'"></script>
+    <script th:text="'var wgen=' + ${wgen}+ ';'"></script>
+    <script th:text="'var egen=' + ${egen}+ ';'"></script>
+    <script th:text="'var ekor=' + ${ekor}+ ';'"></script>
+    <script th:text="'var wkor=' + ${wkor}+ ';'"></script>
+    <script th:text="'var efal=' + ${efal}+ ';'"></script>
+    <script th:text="'var wfal=' + ${wfal}+ ';'"></script>
+    <script th:text="'var aefal=' + ${aefal}+ ';'"></script>
+    <script th:text="'var aekor=' + ${aekor}+ ';'"></script>
+    <script th:text="'var aegen=' + ${aegen}+ ';'"></script>
+    <script th:text="'var aetre=' + ${aetre}+ ';'"></script>
+    <script th:text="'var gesan=' + ${gesan}+ ';'"></script>
+
+    <script type="text/javascript">google.charts.load('current', {packages: ['corechart', 'bar']});
+    google.charts.setOnLoadCallback(drawDualY);
+
+    function drawDualY() {
+    var data3 = new google.visualization.DataTable();
+    data3.addColumn('string', 'Statistische Gütekriterien der Klassifikation');
+    data3.addColumn('number', 'Expertensystem');
+    data3.addColumn('number', 'Expertensystem unbereinigt');
+    data3.addColumn('number', 'Watsonsystem');
+
+    data3.addRows([
+    ['Trefferquote', etre, aetre, wtre],
+    ['Genauigkeit', egen, aegen, wgen],
+    ['Korrektklassifikationsrate', ekor, aekor, wkor],
+    ['Falschklassifikationsrate', efal, aefal, wfal],
+    ]);
+
+    var options3 =
+    {
+        title: 'Vergleich der Klassifikationssysteme',
+        colors: ['#9575cd', '#33ac71', '#e5e4e2'],
+        hAxis: {
+          title: 'Statisitische Gütekriterien der Klassifikationen',
+          viewWindow: {
+            min: [7, 30, 0],
+            max: [17, 30, 0]
+          }
+        },
+        vAxis: {
+          title: 'Rating (scale of 1-100)'
+        }
+      };
+    var materialChart3 = new google.charts.Bar(document.getElementById('chart3_div'));
+    materialChart3.draw(data3, options3);
+    }
+</script>
+</head>
+<body>
+<h1> Dauer-Preis-Vergleich </h1>
+<div id='chart_div'></div>
+<h1> Fragelänge-Preis-Vergleich </h1>
+<div id='chart2_div'></div>
+<h1> Mieter-Vermieter-Konfusionsmatrix für Watson im Vergleich zu den Rechtsexperten </h1>
+<div id='table_div'></div>
+<p>Der Wert 1 in der Tabelle repräsentiert true, der Wert 2 false. Aus der Tabelle lässt sich also ablesen,
+    wie oft das Watsonsystem mit den Rechtsexperten bezüglich true übereinstimmt - an der Stelle 1-1 - und abweicht - bei
+    1-2. Gleiches gilt für die Übereinstimmung bezüglich false - 2-2 - und die Abweichung bezüglich false - 2-1.</p>
+<p> <center><b><span th:text="'Recall: ' + ${wtre}+'%'"></span></b></center></p>
+<p> <center> Als Recall bezeichnet man die Trefferquote. Die Trefferquote gibt den Anteil der korrekt als positiv klassifizierten Objekte an der Gesamtheit der tatsächlich positiven Objekte an. </center></p>
+<p> <center><b><span th:text="'Precision: ' + ${wgen}+'%'"></span></b></center></p>
+<p> <center> Als Precision bezeichnet man die Genauigkeit oder Relevanz. Sie gibt den Anteil der korrekt als positiv klassifizierten Ergebnisse an der Gesamtheit der als positiv klassifizierten Ergebnisse an. </center></p>
+<p> <center><b><span th:text="'Korrektklassifikationsrate: ' + ${wkor}+'%'"></span></b></center></p>
+<p> <center><b><span th:text="'Falschklassifikationsrate: ' + ${wfal}+'%'"></span></b></center></p>
+<p> <center> Die Raten geben jeweils an wieviele Objekte prozentual richtig beziehungsweise falsch klassifiziert wurden.</center></p>
+<h1> Mieter-Vermieter-Konfusionsmatrix für das Expertensystem im Vergleich zu den Rechtsexperten</h1>
+<div id='table2_div'></div>
+<p> Der Wert 1 in der Tabelle repräsentiert true, der Wert 2 false. Aus der Tabelle lässt sich also ablesen,
+    wie oft hier das Expertensystem mit den Rechtsexperten bezüglich true übereinstimmt - an der Stelle 1-1 - und abweicht - bei
+    1-2. Gleiches gilt für die Übereinstimmung bezüglich false - 2-2 - und die Abweichung bezüglich false - 2-1.</p>
+<p> <center><b><span th:text="'Recall: ' + ${etre}+'%' + ' (ohne Voraussortierung der nichtzuordnenbaren Fälle: ' + ${aetre +'%'+')'}"></span></b></center></p>
+<p> <center> Als Recall bezeichnet man die Trefferquote. Die Trefferquote gibt den Anteil der korrekt als positiv klassifizierten Objekte an der Gesamtheit der tatsächlich positiven Objekte an. </center></p>
+<p> <center><b><span th:text="'Precision: ' + ${egen}+'%'+ ' (ohne Voraussortierung der nichtzuordnenbaren Fälle: ' + ${aegen} +'%'+')'"></span></b></center></p>
+<p> <center> Als Precision bezeichnet man die Genauigkeit oder Relevanz. Sie gibt den Anteil der korrekt als positiv klassifizierten Ergebnisse an der Gesamtheit der als positiv klassifizierten Ergebnisse an. </center></p>
+<p> <center><b><span th:text="'Korrektklassifikationsrate: ' + ${ekor}+'%'+ ' (ohne Voraussortierung der nichtzuordnenbaren Fälle: ' + ${aekor} +'%'+')'"></span></b></center></p>
+<p> <center><b><span th:text="'Falschklassifikationsrate: ' + ${efal}+'%'+ ' (ohne Voraussortierung der nichtzuordnenbaren Fälle: ' + ${aefal} +'%'+')'"></span></b></center></p>
+<p> <center> Die Raten geben jeweils an wieviele Objekte prozentual richtig beziehungsweise falsch klassifiziert wurden.</center></p>
+<p> <center><span th:text="'Problemfälle, die nicht klassifiziert werden konnten: ' + ${ep} + ' von insgesamt ' + ${gesan} + ' annotierten Fällen.'"></span> </center></p>
+<div id='chart3_div'></div>
+<h1> Gewerblich-Privat-Konfusionsmatrix für das Expertensystem im Vergleich zu den Rechtsexperten</h1>
+<div id='table3_div'></div>
+<p> Der Wert 1 in der Tabelle repräsentiert true, der Wert 2 false. Aus der Tabelle lässt sich also ablesen,
+    wie oft hier das Expertensystem mit den Rechtsexperten bezüglich true übereinstimmt - an der Stelle 1-1 - und abweicht - bei
+    1-2. Gleiches gilt für die Übereinstimmung bezüglich false - 2-2 - und die Abweichung bezüglich false - 2-1.</p>
+<p> <center><b>Recall: 75.86%</b></center></p>
+<p> <center> Als Recall bezeichnet man die Trefferquote. Die Trefferquote gibt den Anteil der korrekt als positiv klassifizierten Objekte an der Gesamtheit der tatsächlich positiven Objekte an. </center></p>
+<p> <center><b>Precision: 88.00%</b></center></p>
+<p> <center> Als Precision bezeichnet man die Genauigkeit oder Relevanz. Sie gibt den Anteil der korrekt als positiv klassifizierten Ergebnisse an der Gesamtheit der als positiv klassifizierten Ergebnisse an. </center></p>
+<p> <center><b>Korrektklassifikationsrate: 93.90%</b></center></p>
+<p> <center><b>Falschklassifikationsrate: 6.10%</b></center></p>
+<p> <center> Die Raten geben jeweils an wieviele Objekte prozentual richtig beziehungsweise falsch klassifiziert wurden.</center></p>
+
+<div class="w3-center">
+    <form action="http://localhost:8080/welcome" method="get">
+        <div class="w3-center">
+        </div>
+    </form>
+</div>
+
+</body>
+</html>
