@@ -7,6 +7,10 @@ public class Komplexitätsberechner {
         System.out.println(countWord("Das hier ist ein Beispielsatz mit unterschiedlichen Wörtern, unter anderem lange Nomen wie zum Beispiel Ordnungswidrigkeit"));
     }
 
+    /**
+     * Zählt die Anzahl der Wörter in einer Frage
+     * @param message der Text der Frage
+     */
     public static int countWord(String message) {
 
         int wordCount = 0;
@@ -19,6 +23,10 @@ public class Komplexitätsberechner {
         return wordCount;
     }
 
+    /**
+     * Zählt die Anzahl von komplexen Nomen in einer Frage
+     * @param message die zu analysierende Frage
+     */
     public static int complexNounCount(String message) {
         int nounCount = 0;
         String [] words = message.split(" ");
@@ -33,6 +41,10 @@ public class Komplexitätsberechner {
         return nounCount;
     }
 
+    /**
+     * Zählt die Anzahl von bestimmten Sonderzeichen in einer Frage
+     * @param message die zu analysierende Frage
+     */
     public static int complexSymbolCount(String message) {
         int symbolCount;
         symbolCount = StringUtils.countMatches(message, "§");

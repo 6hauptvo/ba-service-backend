@@ -3,6 +3,9 @@ package uhh_lt.webserver;
 public class PreisempfehlungsberechnerTest {
     static Preisempfehlungsberechner grc = new Preisempfehlungsberechner();
 
+    /**
+     * Testet die Preisempfehlungsberechner Methoden
+     */
                 public static void main (String[] args) throws Exception{
         try {
             grc.getPrice("Guten Tag, ich habe vor einem Jahr zusammen mit meiner Frau eine Mietwohnung in Hamburg angemietet. Heute habe ich meine neue Nebenkostenabrechnung bekommen und die ist deutlich teurer als zuvor.");
