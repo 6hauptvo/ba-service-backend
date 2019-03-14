@@ -19,6 +19,9 @@ import java.util.Scanner;
 public class Preisempfehlungsberechner {
     static SolrClient client = new HttpSolrClient.Builder("http://ltdemos:8983/solr/fea-schema-less-2").build();
 
+    /**
+     * Schreibt relevante Daten price_training_2.csv, damit trainModel daraus ein Model erstellen kann. Benutzt SolrConnect und Komplexitätsberechner.
+     */
     public static void main(String[] args) {
         SolrConnect connect = new SolrConnect();
         List<String> ids = readIdFile("resources/outputID.txt");
@@ -50,6 +53,10 @@ public class Preisempfehlungsberechner {
         writer.close();
     }
 
+    /**
+     * Gibt den Preis einer Frage anhand ihrer ID aus
+     * @param frage die zu analysierende Frage
+     */
     public double getPrice(String frage) throws Exception {
 
         Classifier lrLoaded = (Classifier) weka.core.SerializationHelper.read(getClass().getClassLoader().getResourceAsStream("price.model"));
@@ -65,6 +72,9 @@ public class Preisempfehlungsberechner {
         return Math.round(prediction);
     }
 
+    /**
+     * Trainiert das linear regression Modell anhand der in der main Funktion erstellten csv-Datei
+     */
     public void trainModel() throws Exception {
         ConverterUtils.DataSource source = new ConverterUtils.DataSource("resources/price_training_2.csv");
         Instances dataset = source.getDataSet();
@@ -74,7 +84,10 @@ public class Preisempfehlungsberechner {
         weka.core.SerializationHelper.write("resources/price.model", lr);
 
     }
-
+    /**
+     * liest eine Textdatei aus und speichert den Inhalt in einer ArrayList
+     * @param filename eine Textatei zum Auslesen
+     */
     private static List<String> readIdFile(String filename) {
 
         Scanner s = null;
