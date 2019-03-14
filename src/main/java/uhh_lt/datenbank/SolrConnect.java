@@ -174,7 +174,7 @@ public class SolrConnect
 
     /**
      * Gibt den Preis einer Frage anhand ihrer ID aus
-     * @param id Ein JSON Object
+     * @param id die ID von der Frage
      */
     public String getPreis(String id) {
         SolrQuery query = new SolrQuery();
