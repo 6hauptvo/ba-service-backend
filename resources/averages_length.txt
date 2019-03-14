@@ -1,8 +1,8 @@
-Die durchschnittliche Wortlänge bei Preisen zwischen 20 und 29 Euro ist 139.78572 Wörter.
-Die durchschnittliche Wortlänge bei Preisen zwischen 30 und 39 Euro ist 194.32912 Wörter.
-Die durchschnittliche Wortlänge bei Preisen zwischen 40 und 49 Euro ist 184.89655 Wörter.
-Die durchschnittliche Wortlänge bei Preisen zwischen 50 und 59 Euro ist 206.34346 Wörter.
-Die durchschnittliche Wortlänge bei Preisen zwischen 60 und 69 Euro ist 260.19626 Wörter.
-Die durchschnittliche Wortlänge bei Preisen zwischen 70 und 79 Euro ist 269.1282 Wörter.
-Die durchschnittliche Wortlänge bei Preisen zwischen 80 und 89 Euro ist 294.1875 Wörter.
-Die durchschnittliche Wortlänge bei Preisen zwischen 90 und 100 Euro ist 317.86667 Wörter.
+Die durchschnittliche Fragelänge bei Preisen zwischen 20 und 29 Euro ist 139.78572 Wörter.
+Die durchschnittliche Fragelänge bei Preisen zwischen 30 und 39 Euro ist 194.32912 Wörter.
+Die durchschnittliche Fragelänge bei Preisen zwischen 40 und 49 Euro ist 184.89655 Wörter.
+Die durchschnittliche Fragelänge bei Preisen zwischen 50 und 59 Euro ist 206.34346 Wörter.
+Die durchschnittliche Fragelänge bei Preisen zwischen 60 und 69 Euro ist 260.19626 Wörter.
+Die durchschnittliche Fragelänge bei Preisen zwischen 70 und 79 Euro ist 269.1282 Wörter.
+Die durchschnittliche Fragelänge bei Preisen zwischen 80 und 89 Euro ist 294.1875 Wörter.
+Die durchschnittliche Fragelänge bei Preisen zwischen 90 und 100 Euro ist 317.86667 Wörter.
