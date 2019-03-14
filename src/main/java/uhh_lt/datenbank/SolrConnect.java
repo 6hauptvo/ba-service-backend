@@ -172,9 +172,13 @@ public class SolrConnect
         return valueOf(results.get(0).get("t_message"));
     }
 
+    /**
+     * Gibt den Preis einer Frage anhand ihrer ID aus
+     * @param id Ein JSON Object
+     */
     public String getPreis(String id) {
         SolrQuery query = new SolrQuery();
-        query.setQuery("id:" + id).setFields("price").setStart(0).setRows(10000);
+        query.setQuery("id:" + id).setFields("price").setStart(0).setRows(10);
 
         QueryResponse response = null;
 
