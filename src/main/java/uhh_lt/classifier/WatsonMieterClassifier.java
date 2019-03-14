@@ -14,11 +14,15 @@ public class WatsonMieterClassifier implements ClassifierInterface
     public WatsonMieterClassifier()
     {
     IamOptions options = new IamOptions.Builder()
-            .apiKey("nqeYBC1Rp7M7CpUpAwmr-cFBiQVHndCzNMz07-Yw3lKF")
+            .apiKey("IM_TRELLO")
             .build();
     naturalLanguageClassifier = new NaturalLanguageClassifier(options);
     }
 
+    /**
+     * klassifiziert Fragen nach Mieter oder Vermieter mithilfe der Watson Dienste
+     * @param neueFrage die zu klassifizierende Frage
+     */
     @Override
     public Double classify(String neueFrage)
     {

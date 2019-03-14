@@ -9,6 +9,9 @@ import weka.core.converters.ConverterUtils.DataSource;
 
 public class LinearRegressionClassifier {
 
+    /**
+     * Die erste Version von linear regression mit Testdaten
+     */
     public static void main(String args[]) throws Exception{
         //load dataset
         DataSource source = new DataSource("resources/price_training_2.csv");

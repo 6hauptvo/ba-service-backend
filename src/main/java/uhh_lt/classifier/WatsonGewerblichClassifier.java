@@ -20,6 +20,10 @@ public class WatsonGewerblichClassifier implements ClassifierInterface
         naturalLanguageClassifier = new NaturalLanguageClassifier(options);
     }
 
+    /**
+     * klassifiziert Fragen nach privat oder gewerblich mithilfe der Watson Dienste
+     * @param neueFrage die zu klassifizierende Frage
+     */
     @Override
     public Double classify(String neueFrage) {
 

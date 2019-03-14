@@ -12,6 +12,11 @@ public class Datendifferenzberechner {
         Differenz("2019-02-20 16:29:03", "2019-02-20 17:23:31");
     }
 
+    /**
+     * Berechnet den Zeitunterschied zwischen zwei Daten aus Solr
+     * @param aDate erstes Datum
+     * @param tDate zweites Datum
+     */
     public static long Differenz(String aDate, String tDate)
     {
         try

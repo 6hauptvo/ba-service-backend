@@ -17,6 +17,9 @@ import java.util.ArrayList;
 public class PriceLengthClassifier {
     private static SolrClient client = new HttpSolrClient.Builder("http://ltdemos:8983/solr/fea-schema-less-2").build();
 
+    /**
+     * Bestimmt den Zusammenhang zwischen Länge der Fragen in Wörtern und den Preisen, die aus Preisklassen in Zehnerschritten bestehen
+     */
     public static void main(String[] args) throws IOException {
         FileWriter fw = new FileWriter("resources/averages_length.txt");
         int sum = 0;

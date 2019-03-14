@@ -4,6 +4,9 @@ package uhh_lt.datenbank;
 
 public class SolrConnectTester {
 
+    /**
+     * Überprüft, ob der Import von JSON zu Solr richtig funktioniert
+     */
     public static void main(String[] args)
     {
         SolrConnect connect = new SolrConnect();

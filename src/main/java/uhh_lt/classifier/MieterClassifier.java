@@ -66,6 +66,9 @@ public class MieterClassifier implements ClassifierInterface
         System.out.println("...done");
     }
 
+    /**
+     * Bestimmt mithilfe des Expertensystems aus Textdateien mit Keywords, ob der Fragesteller Mieter oder Vermieter ist.
+     */
     public Double classify(String text)
     {
         //System.out.println(text);

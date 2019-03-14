@@ -149,6 +149,9 @@ public class ApplicationController  extends SpringBootServletInitializer {
         }
     }
 
+    /**
+     * Die Seite ist dafür dar, um manuell Mieter/Vermieter zu klassifizieren
+     */
     @RequestMapping("/")
     String home()
     {
@@ -185,6 +188,9 @@ public class ApplicationController  extends SpringBootServletInitializer {
         return sb.toString();
     }
 
+    /**
+     * Die Seite ist dafür dar, um manuell gewerblich/privat zu klassifizieren
+     */
     @RequestMapping("/gewerblich")
     String home2()
     {
@@ -223,6 +229,9 @@ public class ApplicationController  extends SpringBootServletInitializer {
 
 
 
+    /**
+     * Auf der Seite werden Daten zu unseren Ergebnissen angezeigt
+     */
     @RequestMapping("/stats")
     public String staty(Model model)
     {
@@ -276,6 +285,10 @@ public class ApplicationController  extends SpringBootServletInitializer {
         model.addAttribute("w22", sm.getWatson22());
         return "table"; //view
     }
+
+    /**
+     * Die Seite mit dem fertigen Tool zur Bestimmung von Preis und anderen Informationen von neuen Fragen
+     */
     @RequestMapping("/result")
     public String result (@RequestParam(value = "text", defaultValue = "") String text,         @RequestParam(value = "format", defaultValue = "text") String format, Model model)
     {

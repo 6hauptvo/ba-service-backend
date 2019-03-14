@@ -33,7 +33,6 @@ public class GewerblichClassifier implements ClassifierInterface
      * @param Filename Den Filenamen als String
      * @param Dictionary Eine HashMap
      */
-
     private void dateiEinleser(String Filename, HashMap<String, Integer> Dictionary) {
         //System.out.println("loading: " +Filename);
 
@@ -70,6 +69,9 @@ public class GewerblichClassifier implements ClassifierInterface
         //System.out.println("...done");
     }
 
+    /**
+     * Bestimmt mithilfe des Expertensystems aus Textdateien mit Keywords, ob der Fall gewerblich oder privat ist.
+     */
     public Double classify(String text)
     {
         //System.out.println(text);

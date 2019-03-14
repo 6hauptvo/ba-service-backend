@@ -18,6 +18,9 @@ public class PriceTimeClassifier
 {
     private static SolrClient client = new HttpSolrClient.Builder("http://ltdemos:8983/solr/fea-schema-less-2").build();
 
+    /**
+     * Bestimmt den Zusammenhang zwischen der Antwortzeit in Minuten und den Preisen, die aus Preisklassen in Zehnerschritten bestehen
+     */
     public static void main(String[] args) throws IOException {
         FileWriter fw = new FileWriter("resources/averages_time.txt");
         int sum = 0;
