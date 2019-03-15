@@ -10,8 +10,8 @@
 
 <style>
 textarea {
-  width: 95%;
-  height: 200px;
+  width: 80%;
+  height: 50px;
   padding: 10px;
   border: 1px solid #d9d9d9;
   outline: none;
@@ -36,15 +36,16 @@ function w3_close() {
 </script>
 
 <nav class="w3-sidebar w3-bar-block w3-card w3-animate-left w3-center" style="display:none" id="mySidebar">
-    <h1 class="w3-xxxMedium w3-text-theme">Side Navigation</h1>
-    <button class="w3-bar-item w3-button" onclick="w3_close()">Close <i class="fa fa-remove"></i></button>
-    <a href="#" class="w3-bar-item w3-button" onclick="location.href='./stats';" >Result</a>
+    <h1 class="w3-xxxMedium w3-text-theme">Menü</h1>
+    <a href="#" class="w3-bar-item w3-button" onclick="location.href='./stats';" >Statistiken</a>
+    <button class="w3-bar-item w3-button" onclick="w3_close()">Schließen <i class="fa fa-remove"></i></button>
+
 </nav>
 
 <head>
     <div class="w3-container w3-theme w3-padding">
         <i onclick="w3_open()" class="fa fa-bars w3-xlarge w3-button w3-theme"></i>
-        <h2 class="w3-center">Preis Analyse</h2>
+        <h2 class="w3-center">Bitte stellen Sie Ihre Frage</h2>
     </div>
 </head>
 <body>
@@ -52,19 +53,49 @@ function w3_close() {
     <div class="w3-center" >
         <form action="./result" method="get">
             <textarea id="textinput" name="text" th:text="${input}"></textarea>
-            <button id="do" class="w3-button w3-theme" value="Analyse"  >Analyse</button>
+            <br/>
+            <button id="do" class="w3-button w3-theme" value="Analyse"  >Überprüfen</button>
         </form>
     </div>
         <div>
+            Interna:
             <br/>
+            Mieter(true) oder Vermieter(false):<span th:text="${mieter}" id="mieter">0</span>
+            <br/>
+            Gewerblich(true) oder privat(false):<span th:text="${gewerblich}" id="gewerblich">0</span>
+            <br/>
+            <span th:text="${nachfrage}" id="nachfrage">0</span>
+            <br/>
+        </div>
+    <div class="w3-center" >
+        <form action="./result" method="get">
+            Hinweis:
+            <br/>
+            Wenn Sie sensible Daten wie vollständige Namen oder Adressen in Ihrem Text haben, sollten Sie entweder Vertraulichkeit beantragen oder den Text ändern.
+            <br/>
+            Für nur 20 Euro zusätzlich, garantieren wir Ihnen, dass nur Sie und der beratende Anwalt Ihre Frage einsehen kann.
+            <br/>
+            Außerdem ermöglicht die vertrauliche Anfrage, dass Sie relevante Dokumente mitschicken können.
+            <br/>
+            <button id="vertraulich" class="w3-button w3-theme" value="20" > Vertraulich </button>
+        </form>
+    </div>
+        <div>
             Preisvorschlag:<span th:text="${preis}" id="preis">0</span>
             <br/>
-            Mieter(True) oder Vermieter(false):<span th:text="${mieter}" id="mieter">0</span>
+            Bitte geben Sie im untenstehenden Eingabefeld Ihr Gebot für die Antwort ein.
             <br/>
-            Gewerblich(true) oder privat(false):<span th:text="${gewerblich}" id="gewerbe">0</span>
-            <br/>
-            Hinweis: Wenn Sie sensible Daten wie vollständige Namen oder Adressen in Ihrem Text haben, sollten Sie entweder Vertraulichkeit beantragen oder den Text ändern.
         </div>
+            <div class="w3-center" >
+                <form action="./result" method="get">
+                    <textarea id="preisinput" name="endpreis" placeholder="Bitte geben Sie hier Ihren Preis ein"></textarea>
+                <br/>
+                   Ihr Gesamtbetrag:
+                <br/>
+                    <button id="send" class="w3-button w3-theme" value="Analyse" >Abschicken </button>
+                </form>
+            </div>
+
 
 </body>
 </html>
