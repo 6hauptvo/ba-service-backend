@@ -26,7 +26,7 @@ public class Statistikmethoden
      * enthält
      * @return ein String aus [Fragelänge, Preis] Substrings
      */
-    public String fragelängePreisComparer()
+    public String fragelaengePreisComparer()
     {
         return solrConnect.comparer("t_length");
     }
@@ -52,7 +52,7 @@ public class Statistikmethoden
     /**
      * Ermittelt, wie häufig Watson mit den Rechtsexperten nicht übereinstimmt, da Watson true sagt und die Rechtsexperten
      * sagen false
-     * @return
+     * @return false positives von Watson
      */
     public int getWatson12()
     {

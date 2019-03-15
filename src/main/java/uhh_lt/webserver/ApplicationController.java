@@ -31,7 +31,6 @@ public class ApplicationController  extends SpringBootServletInitializer {
 
     /**
      * Runs the RESTful server.
-     *
      * @param args execution arguments
      */
     public static void main(String[] args) {
@@ -65,9 +64,7 @@ public class ApplicationController  extends SpringBootServletInitializer {
     }
 
     private List<String> readIdFile(String filename) {
-
-        Scanner s = null;
-        s = new Scanner(getClass().getClassLoader().getResourceAsStream(filename));
+        Scanner s = new Scanner(getClass().getClassLoader().getResourceAsStream(filename));
         List<String> out = new ArrayList<>();
         while (s.hasNextLine()){
             out.add(s.nextLine());
@@ -226,9 +223,6 @@ public class ApplicationController  extends SpringBootServletInitializer {
         return sb.toString();
     }
 
-
-
-
     /**
      * Auf der Seite werden Daten zu unseren Ergebnissen angezeigt
      */
@@ -238,7 +232,7 @@ public class ApplicationController  extends SpringBootServletInitializer {
         SolrConnect sc = new SolrConnect();
         Statistikmethoden sm = new Statistikmethoden();
         model.addAttribute("message", sm.dauerPreisComparer());
-        model.addAttribute("message1", sm.fragelängePreisComparer());
+        model.addAttribute("message1", sm.fragelaengePreisComparer());
         model.addAttribute("w11", sm.getWatson11());
         model.addAttribute("w12", sm.getWatson12());
         model.addAttribute("w21", sm.getWatson21());
@@ -267,7 +261,6 @@ public class ApplicationController  extends SpringBootServletInitializer {
     @RequestMapping("/charts")
     public String charty( Model model)
     {
-        SolrConnect sc = new SolrConnect();
         Statistikmethoden sm = new Statistikmethoden();
         model.addAttribute("message", sm.dauerPreisComparer());
 
@@ -277,7 +270,6 @@ public class ApplicationController  extends SpringBootServletInitializer {
     @RequestMapping("/table")
     public String mainy (Model model)
     {
-        SolrConnect sc = new SolrConnect();
         Statistikmethoden sm = new Statistikmethoden();
         model.addAttribute("w11", sm.getWatson11());
         model.addAttribute("w12", sm.getWatson12());
