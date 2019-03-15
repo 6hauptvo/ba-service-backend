@@ -289,6 +289,7 @@ public class ApplicationController  extends SpringBootServletInitializer {
             model.addAttribute("mieter", mc.istHauptklasse(text));
             model.addAttribute("preis", pb.getPrice(text));
             model.addAttribute("gewerblich", gc.istHauptklasse(text));
+            model.addAttribute("nachfrage", sc.ueberpruefenButtonPushed(text));
 
         }   catch (Exception e) {
             e.printStackTrace();
