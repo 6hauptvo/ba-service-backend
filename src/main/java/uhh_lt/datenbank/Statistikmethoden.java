@@ -14,7 +14,7 @@ public class Statistikmethoden
     /**
      * Es wird ein String erstellt, der aufsteigend nach Dauer sortiert eine Reihe von [Dauer, Preis] Substrings
      * enthält
-     * @return
+     * @return ein String aus [Dauer, Preis] Substrings
      */
     public String dauerPreisComparer()
     {
@@ -24,7 +24,7 @@ public class Statistikmethoden
     /**
      * Es wird ein String erstellt, der aufsteigend nach Dauer sortiert eine Reihe von [Fragelänge, Preis] Substrings
      * enthält
-     * @return
+     * @return ein String aus [Fragelänge, Preis] Substrings
      */
     public String fragelängePreisComparer()
     {
@@ -33,7 +33,7 @@ public class Statistikmethoden
 
     /**
      * Ermittelt, wie häufig Watson mit den Rechtsexperten mit jeweils true übereinstimmt
-     * @return
+     * @return die true positives von Watson
      */
     public int getWatson11()
     {
@@ -42,7 +42,7 @@ public class Statistikmethoden
 
     /**
      * Ermittelt, wie häufig Watson mit den Rechtsexperten mit jeweils false übereinstimmt
-     * @return
+     * @return die true negatives von Watson
      */
     public int getWatson22()
     {
@@ -62,7 +62,7 @@ public class Statistikmethoden
     /**
      * Ermittelt, wie häufig Watson mit den Rechtsexperten nicht übereinstimmt, da Watson false sagt und die Rechtsexperten
      * sagen true
-     * @return
+     * @return die false negatives von Watson
      */
     public int getWatson21()
     {
@@ -71,7 +71,7 @@ public class Statistikmethoden
 
     /**
      * Ermittelt, wie häufig die Listen mit den Rechtsexperten übereinstimmen mit jeweils true
-     * @return
+     * @return die true positives des bereinigten Expertensystems
      */
     public int getListe11()
     {
@@ -80,7 +80,7 @@ public class Statistikmethoden
 
     /**
      * Ermittelt, wie häufig die Listen mit den Rechtsexperten übereinstimmen mit jeweils false
-     * @return
+     * @return die true negatives des bereinigten Expertensystems
      */
     public int getListe22()
     {
@@ -90,7 +90,7 @@ public class Statistikmethoden
     /**
      * Ermittelt, wie häufig die Listen mit den Rechtsexperten nicht übereinstimmt, da die Listen true und die
      * Rechtsexperten false sagen
-     * @return
+     * @return die false positives des bereinigten Expertensystems
      */
     public int getListe12()
     {
@@ -98,9 +98,9 @@ public class Statistikmethoden
     }
 
     /**
-     * Ermittelt, wie häufig die Listen mit den Rechtsexperten nicht übereinstimmt, da die Listen false und die
+     * Ermittelt, wie häufig die bereinigten Listen mit den Rechtsexperten nicht übereinstimmt, da die Listen false und die
      * Rechtsexperten true sagen
-     * @return
+     * @return die false negatives des bereinigten Expertensystems
      */
     public int getListe21()
     {
@@ -110,7 +110,7 @@ public class Statistikmethoden
     /**
      * Ermittelt, wie häufig die Listen ohne Bereinigung der Problemfälle mit den Rechtsexperten nicht übereinstimmt,
      * da die Listen false und die Rechtsexperten true sagen
-     * @return
+     * @return die false negatives des unbereinigten Expertensystems
      */
     public int getListe21Alle()
     {
@@ -137,7 +137,7 @@ public class Statistikmethoden
 
     /**
      * Gibt die Trefferquote (richtig positiv geteilt durch richtig positiv plus falsch negativ) von Watson aus
-     * @return
+     * @return die Trefferquote des Watsonsystems oder -1 im Fehlerfall
      */
     public String getTrefferquoteWatson()
     {
@@ -171,7 +171,7 @@ public class Statistikmethoden
 
     /**
      * Die Methode gibt die Genauigkeit (richtig positiv geteilt durch richtig positiv plus falsch positiv) von Watson zurück
-     * @return
+     * @return die Genauigkeit des Watsonsystems oder -1 im Fehlerfall
      */
     public String getGenauigkeitWatson()
     {
