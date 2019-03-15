@@ -11,8 +11,6 @@ public class Statistikmethoden
         solrConnect = new SolrConnect();
     }
 
-
-
     /**
      * Es wird ein String erstellt, der aufsteigend nach Dauer sortiert eine Reihe von [Dauer, Preis] Substrings
      * enthält
@@ -32,9 +30,6 @@ public class Statistikmethoden
     {
         return solrConnect.comparer("t_length");
     }
-
-
-
 
     /**
      * Ermittelt, wie häufig Watson mit den Rechtsexperten mit jeweils true übereinstimmt
@@ -192,8 +187,8 @@ public class Statistikmethoden
     }
 
     /**
-     *
-     * @return
+     * Ermittelt die Korrektklassifikationsrate des bereinigten Expertensystems
+     * @return die Korrektklassifikationsrate des bereinigten Expertensystems
      */
     public String getKorrektklassifikationsrateListen()
     {
@@ -209,8 +204,8 @@ public class Statistikmethoden
     }
 
     /**
-     *
-     * @return
+     * Ermittelt die Korrektklassifikationsrate des Watsonsystems
+     * @return die Korrektklassifikationsrate des Watsonsystems
      */
     public String getKorrektklassifikationsrateWatson() {
         int richtige = getWatson11()+getWatson22();
@@ -224,8 +219,8 @@ public class Statistikmethoden
     }
 
     /**
-     *
-     * @return
+     * Ermittelt die Falschklassifikationsrate des bereinigten Expertensystems
+     * @return die Falschklassifikationsrate des bereinigten Expertensystems
      */
     public String getFalschklassifikationsrateListen()
     {
@@ -241,8 +236,8 @@ public class Statistikmethoden
     }
 
     /**
-     *
-     * @return
+     * Ermittelt die Falschklassifikationsrate des Watsonsystems
+     * @return die Falschklassifikationsrate des Watsonsystems
      */
     public String getFalschklassifikationsrateWatson()
     {
@@ -258,8 +253,8 @@ public class Statistikmethoden
     }
 
     /**
-     *
-     * @return
+     * Ermittelt die Falschklassifikationsrate des unbereinigten Expertensystems
+     * @return die Falschklassifikationsrate des unbereinigten Expertensystems
      */
     public String getAlleFalschklassifikationsrateListen()
     {
@@ -275,8 +270,8 @@ public class Statistikmethoden
     }
 
     /**
-     *
-     * @return
+     * Ermittelt die Korrektklassifikationsrate des unbereinigten Expertensystems
+     * @return die Korrektklassifikationsrate des unbereinigten Expertensystems
      */
     public String getAlleKorrektklassifikationsrateListen()
     {

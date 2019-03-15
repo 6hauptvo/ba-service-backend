@@ -1,7 +1,7 @@
 package uhh_lt.webserver;
 
 public class PreisempfehlungsberechnerTest {
-    static Preisempfehlungsberechner grc = new Preisempfehlungsberechner();
+    private static Preisempfehlungsberechner grc = new Preisempfehlungsberechner();
 
     /**
      * Testet die Preisempfehlungsberechner Methoden

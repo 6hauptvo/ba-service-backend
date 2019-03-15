@@ -7,7 +7,7 @@ import static org.junit.Assert.assertTrue;
 
 public class MieterClassifierTest {
 
-    MieterClassifier mieterClassifier;
+    private MieterClassifier mieterClassifier;
 
     public MieterClassifierTest()
     {

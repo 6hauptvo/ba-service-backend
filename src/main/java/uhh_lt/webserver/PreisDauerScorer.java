@@ -8,13 +8,8 @@ import org.json.simple.parser.ParseException;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class preisDauerScorer
+public class PreisDauerScorer
 {
-
-    public preisDauerScorer()
-    {
-
-    }
 
     //public int scoring()
     public static void main(String[] args)

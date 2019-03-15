@@ -15,7 +15,6 @@ import uhh_lt.classifier.WatsonMieterClassifier;
 import uhh_lt.webserver.Datendifferenzberechner;
 import uhh_lt.webserver.JsonImport;
 import uhh_lt.webserver.Komplexitätsberechner;
-import uhh_lt.webserver.Preisempfehlungsberechner;
 
 import java.io.*;
 import java.util.*;
@@ -54,7 +53,7 @@ public class SolrConnect
         inputDocument.addField("t_summary", object.get("T_Summary"));
         inputDocument.addField("a_date", object.get("R_posted"));
         inputDocument.addField("a_message", object.get("R_Message"));
-        inputDocument.addField("t_time", Datendifferenzberechner.Differenz((String)object.get("T_Date"),(String)object.get("R_posted")));
+        inputDocument.addField("t_time", Datendifferenzberechner.differenz((String)object.get("T_Date"),(String)object.get("R_posted")));
         inputDocument.addField("Expertensystem_istmieter", mc.istHauptklasse((String)object.get("T_Message")));
         inputDocument.addField("Expertensystem_wert", mc.getMieterwahrscheinlichkeit());
         inputDocument.addField("Watson", wmc.classify((String)object.get("T_Message")));
@@ -815,7 +814,6 @@ public class SolrConnect
      */
     public int getAnzahlRechtsexpertenfelder()
     {
-        SolrConnect solrconnect = new SolrConnect();
         SolrQuery query = new SolrQuery();
         query.set("q", "Rechtsexperten_istmieter:*");
         query.setRows(10001);
@@ -889,7 +887,7 @@ public class SolrConnect
      * @param text ein Text
      * @return true, falls Mieterproblemfall
      */
-    public boolean istProblemfallMieter(String text)
+    private boolean istProblemfallMieter(String text)
     {
         MieterClassifier mieterClassifier = new MieterClassifier();
         double wert = mieterClassifier.classify(text);
@@ -900,15 +898,11 @@ public class SolrConnect
      * Stellt zu einem gegebenen Text fest, ob es sich um einen Gewerblichproblemfall handelt
      * @return true, falls Gewerblichproblemfall
      */
-    public void istProblemfallGewerblich(String text)  //Boolean!!!
+    private Boolean istProblemfallGewerblich(String text)
     {
-        //GewerblichClassifier gewerblichClassifier = new GewerblichClassifier;
-        //double wert = gewerblichClassifier.classify(text);
-        //if(wert == 0.5)
-        //{
-        //    return true
-        //}
-        //return false;
+        GewerblichClassifier gewerblichClassifier = new GewerblichClassifier();
+        double wert = gewerblichClassifier.classify(text);
+        return wert == 0.5;
     }
 
     /**
@@ -916,39 +910,28 @@ public class SolrConnect
      * @param text eine angegebene Frage
      * //@return eine Preisempfehlung und eventuelle Nachfragen
      */
-    public String absendeButtonPushed(String text)
+    public String ueberpruefenButtonPushed(String text)
     {
-        Preisempfehlungsberechner preisempfehlungsberechner = new Preisempfehlungsberechner();
-        double param1 = 0.00;
-        try
+        String param = "Vielen Dank für Ihre Frage";
+        if(istProblemfallMieter(text)&& !istProblemfallGewerblich(text))
         {
-            param1 = preisempfehlungsberechner.getPrice(text);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-
-        String param2 = "";
-        if(istProblemfallMieter(text)) //&& !istProblemfallGewerblich())
-        {
-            param2 = "Möchten Sie vielleicht angeben ob sie Mieter/in oder Vermieter/in sind, falls Sie das noch " +
+            param = "Möchten Sie angeben ob sie Mieter/in oder Vermieter/in sind, falls Sie das noch " +
                     "nicht getan haben?";
         }
 
-        else if(!istProblemfallMieter(text)) //&& istProblemfallGewerblich())
+        else if(!istProblemfallMieter(text) && istProblemfallGewerblich(text))
         {
-            param2 = "Möchten Sie vielleicht angeben ob die Nutzung gewerblich oder privat ist, falls Sie das noch " +
+            param = "Möchten Sie angeben ob die Nutzung gewerblich oder privat ist, falls Sie das noch " +
                     "nicht getan haben und für relevant halten?";
         }
 
-        else if(istProblemfallMieter(text)) //&& istProblemfallGewerblich())
+        else if(istProblemfallMieter(text) && istProblemfallGewerblich(text))
         {
-            param2 = "Möchten Sie vielleicht angeben ob sie Mieter/in oder Vermieter/in sind, falls Sie das noch " +
+            param = "Möchten Sie angeben ob sie Mieter/in oder Vermieter/in sind, falls Sie das noch " +
                     "nicht getan haben?" +
-                    "Möchten Sie vielleicht zusätzlich angeben ob die Nutzung gewerblich oder privat ist, falls Sie das noch " +
+                    "Möchten Sie zusätzlich angeben ob die Nutzung gewerblich oder privat ist, falls Sie das noch " +
                     "nicht getan haben und für relevant halten?";
         }
-        return param1 + param2;
+        return param;
     }
 }
